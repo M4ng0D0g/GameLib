@@ -1,0 +1,26 @@
+#pragma once
+
+#include "utils/Icon.h"
+#include <memory>
+
+class Viewable {
+public:
+	using Ptr = std::shared_ptr<Viewable>;
+	// Ptr create() {
+	// 	return Ptr(new Viewable());
+	// }
+
+protected:
+	Icon icon_;
+
+public:
+	size_t Viewable::icon_width() const { return icon_.empty() ? 0 : icon_[0].size(); }
+	size_t Viewable::icon_height() const { return icon_.size(); }
+
+	const Icon& Viewable::getIcon() const { return icon_; }
+	virtual const Loc2& getLocation() const = 0;
+
+	void Viewable::setIcon(const Icon& icon) { icon_ = icon; }
+	virtual void setLocation(const Loc2&) = 0;
+};
+
