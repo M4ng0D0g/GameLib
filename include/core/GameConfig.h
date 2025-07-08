@@ -3,7 +3,7 @@
 #include "utils/Unit.h"
 #include <memory>
 
-class IGameConfig {
+class GameConfig {
 public:
 	const Size2 fieldSize;
 
