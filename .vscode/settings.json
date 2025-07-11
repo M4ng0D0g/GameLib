@@ -50,6 +50,13 @@
 		"locale": "cpp",
 		"unordered_set": "cpp",
 		"cstring": "cpp",
-		"typeindex": "cpp"
+		"typeindex": "cpp",
+		"map": "cpp",
+		"cinttypes": "cpp",
+		"chrono": "cpp",
+		"ratio": "cpp",
+		"semaphore": "cpp",
+		"stop_token": "cpp",
+		"thread": "cpp"
 	}
 }
