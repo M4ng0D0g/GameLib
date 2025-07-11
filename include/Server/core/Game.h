@@ -1,11 +1,19 @@
 #pragma once
 
-class IGame {
+#include <unordered_map>
+
+class Game {
+protected:
+	std::unordered_map<>
+
 public:
-	virtual ~IGame() = default;
+	virtual ~Game() = default;
 
 	// State Machine for Step-Based
-	virtual void update() = 0;
+	// virtual void update() = 0;
+	void stateMachine() {
+
+	}
 
 	virtual void start() = 0;
 	virtual void end() = 0;
