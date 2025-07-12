@@ -39,3 +39,11 @@
 
 # debug information files
 *.dwo
+
+
+# Build and test folders
+/build/
+/test/
+
+# VSCode settings folder
+.vscode/

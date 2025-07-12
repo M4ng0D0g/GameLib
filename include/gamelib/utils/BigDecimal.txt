@@ -1,0 +1,37 @@
+#pragma once
+
+#include <vector>
+#include <string>
+
+class BigDecimal {
+private:
+    std::vector<short> intPart_;   // 整數部分 (反向儲存)
+    std::vector<short> fracPart_;  // 小數部分 (正向儲存)
+    bool negative_ = false;
+    size_t displayLimit_ = 100;    // 預設最大顯示長度
+
+public:
+    // 建構子
+    BigDecimal(const std::string& s);
+    BigDecimal(long long x = 0);   // 方便整數初始化
+
+    // 解析字串
+    void parse(const std::string& s);
+
+    // 設定最大顯示長度
+    void setDisplayLimit(size_t limit) {
+        displayLimit_ = limit;
+    }
+
+    // 運算 (in-place)
+    void add(const BigDecimal& other);
+    void multiply(const BigDecimal& other);
+    void power(int exponent);  // 次方通常設計成整數次方即可
+
+    // 輸出字串
+    std::string toStr() const;
+
+private:
+    // 內部工具函式
+    void normalize();  // 簡單實作: 去除前導零與尾端多餘小數
+};

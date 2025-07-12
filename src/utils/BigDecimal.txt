@@ -1,0 +1,184 @@
+#include "model/object/BigDecimal.h"
+#include <algorithm>
+
+// 解析字串建構子
+BigDecimal::BigDecimal(const std::string& s) {
+    parse(s);
+}
+
+// 整數建構子
+BigDecimal::BigDecimal(long long x) {
+    if (x < 0) {
+        negative_ = true;
+        x = -x;
+    }
+    if (x == 0) intPart_.push_back(0);
+    while (x > 0) {
+        intPart_.push_back(x % 10);
+        x /= 10;
+    }
+}
+
+// 解析邏輯
+void BigDecimal::parse(const std::string& s) {
+    intPart_.clear();
+    fracPart_.clear();
+    negative_ = false;
+
+    size_t pos = 0;
+    if (s[pos] == '-') {
+        negative_ = true;
+        pos++;
+    }
+
+    size_t dotPos = s.find('.', pos);
+    std::string intStr = s.substr(pos, dotPos - pos);
+    std::string fracStr = (dotPos != std::string::npos) ? s.substr(dotPos + 1) : "";
+
+    // 整數部分 (倒序儲存)
+    for (int i = intStr.size() - 1; i >= 0; --i)
+        intPart_.push_back(intStr[i] - '0');
+    if (intPart_.empty()) intPart_.push_back(0); // 保底
+
+    // 小數部分
+    for (char c : fracStr)
+        fracPart_.push_back(c - '0');
+
+    normalize();
+}
+
+// 移除多餘零
+void BigDecimal::normalize() {
+    // 去除整數前導 0 (注意倒序儲存)
+    while (intPart_.size() > 1 && intPart_.back() == 0)
+        intPart_.pop_back();
+
+    // 去除小數尾端 0
+    while (!fracPart_.empty() && fracPart_.back() == 0)
+        fracPart_.pop_back();
+
+    // 0 保持非負
+    if (intPart_.size() == 1 && intPart_[0] == 0 && fracPart_.empty())
+        negative_ = false;
+}
+
+// 加法運算 (in-place)
+void BigDecimal::add(const BigDecimal& other) {
+    if (negative_ != other.negative_) {
+        std::cout << "目前先不支援不同號數字相加 (需要實作減法)" << std::endl;
+        return;
+    }
+
+    size_t fracSize = std::max(fracPart_.size(), other.fracPart_.size());
+    fracPart_.resize(fracSize, 0);
+    std::vector<short> otherFrac = other.fracPart_;
+    otherFrac.resize(fracSize, 0);
+
+    int carry = 0;
+    for (int i = fracSize - 1; i >= 0; --i) {
+        int sum = fracPart_[i] + otherFrac[i] + carry;
+        fracPart_[i] = sum % 10;
+        carry = sum / 10;
+    }
+
+    size_t intSize = std::max(intPart_.size(), other.intPart_.size());
+    intPart_.resize(intSize, 0);
+    std::vector<short> otherInt = other.intPart_;
+    otherInt.resize(intSize, 0);
+
+    for (size_t i = 0; i < intSize; ++i) {
+        int sum = intPart_[i] + otherInt[i] + carry;
+        intPart_[i] = sum % 10;
+        carry = sum / 10;
+    }
+    if (carry)
+        intPart_.push_back(carry);
+
+    normalize();
+}
+
+// 乘法運算 (in-place)
+void BigDecimal::multiply(const BigDecimal& other) {
+    // 把兩數展平整數運算
+    int totalFrac = fracPart_.size() + other.fracPart_.size();
+
+    std::vector<short> a = intPart_;
+    a.insert(a.begin(), fracPart_.rbegin(), fracPart_.rend());
+    std::vector<short> b = other.intPart_;
+    b.insert(b.begin(), other.fracPart_.rbegin(), other.fracPart_.rend());
+
+    std::vector<short> result(a.size() + b.size(), 0);
+
+    for (size_t i = 0; i < a.size(); ++i) {
+        for (size_t j = 0; j < b.size(); ++j) {
+            result[i + j] += a[i] * b[j];
+            if (result[i + j] >= 10) {
+                result[i + j + 1] += result[i + j] / 10;
+                result[i + j] %= 10;
+            }
+        }
+    }
+
+    // 處理進位後可能多餘的零
+    while (result.size() > 1 && result.back() == 0)
+        result.pop_back();
+
+    // 重新拆成 intPart_ 與 fracPart_
+    if (result.size() <= totalFrac) {
+        fracPart_.assign(result.rbegin(), result.rend());
+        intPart_.assign(1, 0);
+    } else {
+        fracPart_.assign(result.rbegin(), result.rbegin() + totalFrac);
+        intPart_.assign(result.rbegin() + totalFrac, result.rend());
+        std::reverse(intPart_.begin(), intPart_.end());
+        std::reverse(fracPart_.begin(), fracPart_.end());
+    }
+
+    negative_ = (negative_ != other.negative_);
+    normalize();
+}
+
+// 次方運算 (in-place, 整數次方)
+void BigDecimal::power(int exponent) {
+    if (exponent == 0) {
+        *this = BigDecimal("1");
+        return;
+    }
+    BigDecimal base = *this;
+    BigDecimal result("1");
+    while (exponent) {
+        if (exponent & 1)
+            result.multiply(base);
+        base.multiply(base);
+        exponent >>= 1;
+    }
+    *this = result;
+}
+
+// 字串輸出
+std::string BigDecimal::toStr() const {
+    std::ostringstream oss;
+
+    // 檢查是否超過顯示限制
+    size_t totalLen = intPart_.size() + fracPart_.size();
+    if (totalLen > displayLimit_) {
+        return (negative_ ? "-" : "") + std::string("infinity");
+    }
+
+    if (negative_) oss << '-';
+    for (int i = intPart_.size() - 1; i >= 0; --i)
+        oss << intPart_[i];
+
+    if (!fracPart_.empty()) {
+        oss << '.';
+        for (size_t i = 0; i < fracPart_.size(); ++i) {
+            if (intPart_.size() + i >= displayLimit_) {
+                oss << "...";
+                break;
+            }
+            oss << fracPart_[i];
+        }
+    }
+
+    return oss.str();
+}
