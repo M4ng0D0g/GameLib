@@ -7,7 +7,7 @@ private:
 	Environment() {};
 	~Environment() {};
 
-public:
+public:	
 	Environment(const Environment&) = delete;
 	Environment& operator=(const Environment&) = delete;
 	static Environment& get() {
