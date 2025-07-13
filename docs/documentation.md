@@ -1,14 +1,3 @@
-# GameLib
-Useful for simple terminal game.
-
-C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒與 Server/Client 模組。
-
-## 📚 文件導覽
-
-- 🧱 [Documentation](docs/documentation.md)
-- 🧱 [架構設計](docs/architecture.md)
-- 🧵 [多執行緒設計](docs/threading.md)
-
 # 📖 Documentation
 
 ### 🎯 架構概述
@@ -17,8 +6,6 @@ C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒�
 - 遊戲邏輯與顯示分離（MVC 架構）
 - 支援 Console 顯示（位於 `view/console/`）
 - 狀態機管理各階段狀態（位於 `GameState`）
-
-
 
 ## `GameLib::Env`
 ```cpp
