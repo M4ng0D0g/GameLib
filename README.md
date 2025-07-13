@@ -18,9 +18,9 @@ using Class::W_Ptr = std::weak_ptr<Class>;
 
 ### 遊戲基礎
 
-**[Class]** `Game` - 遊戲 Class 必須繼承自的基底類別
+- **[Class]** `Game` - 遊戲 Class 必須繼承自的基底類別
 
-**[Struct]** `GameConfig` - 遊戲初始資料，自行設計並在 `void Game::setup(const GameConfig&)` 使用
+- **[Struct]** `GameConfig` - 遊戲初始資料，自行設計並在 `void Game::setup(const GameConfig&)` 使用
 
 ### 狀態機
 - `GameState`
