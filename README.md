@@ -1,8 +1,16 @@
 # GameLib
 Useful for simple terminal game.
 
+C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒與 Server/Client 模組。
 
-# Documentation
+# 📖 Documentation
+
+### 🎯 架構概述
+
+- 使用 `Game` 為基底管理遊戲流程
+- 遊戲邏輯與顯示分離（MVC 架構）
+- 支援 Console 顯示（位於 `view/console/`）
+- 狀態機管理各階段狀態（位於 `GameState`）
 
 ## `GameLib::Env`
 ```cpp
@@ -18,7 +26,7 @@ static double GAME_TPS; // tick(s) per second
 
 ## `GameLib::Core`
 
-### 遊戲基礎
+### 🎮 遊戲基礎
 
 - `Game` - 遊戲 Class 必須繼承自的基底類別
 ```cpp
@@ -45,7 +53,7 @@ struct GameConfig {
 };
 ```
 
-### 狀態機
+### 🔁 狀態機設計
 
 - `GameState` - 遊戲狀態，放在變數 `Game.currentState_`
 ```cpp
