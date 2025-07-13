@@ -2,13 +2,14 @@
 
 #include "utils/Unit.hpp"
 
-namespace GameLib {
+namespace GameLib::Env {
 
-	struct Env {
-		const int SERVER_PORT = 12345;
-		const int MAX_CLIENTS = 10;
+	// connect/Server
+	static int SERVER_PORT = 12345;
+	static int MAX_CLIENTS = 10;
 
-	};
+	// core/Game
+	static double TPS = 20; // tick(s) per second, 畫面與此同步更新
 }
 
 

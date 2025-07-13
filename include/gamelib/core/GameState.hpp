@@ -7,7 +7,7 @@ class Game;
 
 class GameState {
 public:
-	using UPtr = std::unique_ptr<GameState>;
+	using U_Ptr = std::unique_ptr<GameState>;
 
 public:
 	virtual ~GameState() = default;

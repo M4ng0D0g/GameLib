@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameSettings.hpp"
+#include "GameConfig.hpp"
 #include "GameState.hpp"
 #include <unordered_map>
 #include <memory>
@@ -13,7 +13,7 @@ namespace GameLib::Core {
 		Game(const Game&) = delete;
 		Game& operator=(const Game&) = delete;
 
-		GameState::UPtr currentState_;
+		GameState::U_Ptr currentState_;
 		const double SPT_;
 
 		bool initialized_{false};

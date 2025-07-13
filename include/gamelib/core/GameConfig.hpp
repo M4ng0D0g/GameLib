@@ -5,12 +5,6 @@
 
 namespace GameLib::Core {
 
-	struct GameEnv {
-		static double TPS; // tick(s) per second, 畫面與此同步更新
-
-		GameEnv() = default;
-	};
-
 	struct GameConfig {
 		GameConfig() = default;
 	};
