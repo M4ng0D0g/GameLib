@@ -8,6 +8,17 @@
 
 namespace GameLib::Core {
 
+	
+	/*
+	1. 初始化時需要讀取 `GameLib::Env` 設定 `GAME_TPS`
+	2. 子類自行設計存放 Controller 和 Model
+	3. 子類需要實做
+	`void setup(const GameConfig&)` - `GameConfig` 設定，需要設定 `bool initialized_` 為 `true`，否則無法開始遊戲
+	`void start()` - 遊戲開始
+	`void end()` - 遊戲無條件結束，有條件結束需要額外實作，最終呼叫回 end()
+	`void reset()` - 清空 `GameConfig` 設定並恢復成建構狀態，若不需要重複使用則保留空實作
+	5. `void loop()` 實作基礎流程，遊戲流程透過狀態機實現
+	*/
 	class Game {
 	protected:
 		Game(const Game&) = delete;
