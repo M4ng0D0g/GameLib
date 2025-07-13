@@ -72,7 +72,8 @@ public:
 
 ### View
 > 用來顯示，需要提供特定方法
-- IView - View 介面，顯示需要實作自這個介面
+
+- `IView` - View 介面，顯示需要實作自這個介面
 
 ```md
 提供基礎終端機顯示，位於 `view/console`
