@@ -1,14 +1,15 @@
 #include "gamelib/core/Game.hpp"
+#include "gamelib/Env.hpp"
 #include <ctime>
 #include <thread>
 #include <chrono>
 
 namespace GameLib::Core {
 
-	Game::Game() : SPT_(GameEnv::TPS) {}
+	Game::Game() : SPT_(GameLib::Env::GAME_TPS) {}
 
 	// State Machine for Step-Based
-	void Game::setState(GameState::UPtr newState) {
+	void Game::setState(GameState::U_Ptr newState) {
 		if (currentState_) currentState_->onExit(*this);
 		currentState_ = std::move(newState);
 		if (currentState_) currentState_->onEnter(*this);

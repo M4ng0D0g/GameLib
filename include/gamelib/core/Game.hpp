@@ -25,7 +25,7 @@ namespace GameLib::Core {
 
 		// --------------------------------------------------------------------------------
 		// State Machine for Step-Based
-		void setState(std::unique_ptr<GameState>);
+		void setState(GameState::U_Ptr);
 
 		// 可能要做 update(action)
 		void updateState();
