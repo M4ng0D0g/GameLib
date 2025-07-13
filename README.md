@@ -1,7 +1,7 @@
 # GameLib
 Useful for simple terminal game.
 
-# 基礎設置
+## 基礎設置
 
 ### 針對 Class 封裝特定智能指標
 ```cpp
@@ -10,6 +10,8 @@ using Class::S_Ptr = std::shared_ptr<Class>;
 using Class::W_Ptr = std::weak_ptr<Class>;
 ```
 
+---
+
 # 主要設計
 
 ## GameLib::Core
@@ -17,8 +19,7 @@ using Class::W_Ptr = std::weak_ptr<Class>;
 ### 遊戲基礎
 - `Game` - 遊戲類必須實作的基底類別，可以存放 Controller 和 Model
 - `GameSettings`
-> GameEnv
-> GameConfig
+	- `GameConfig`
 
 ### 狀態機
 - `GameState`
