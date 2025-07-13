@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utils/Icon.h"
+#include "gamelib/utils/Icon.h"
 #include <memory>
 
 class Viewable {

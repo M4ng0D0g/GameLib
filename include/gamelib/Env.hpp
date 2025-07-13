@@ -1,33 +1,22 @@
 #pragma once
 
-#include "utils/Unit.hpp"
+#include "gamelib/utils/Unit.hpp"
 
 namespace GameLib::Env {
 
-	// connect/Server
-	static int SERVER_PORT = 12345;
-	static int MAX_CLIENTS = 10;
+	// connect/server
+	static int SERVER_PORT;
+	static int MAX_CLIENTS;
 
-	// core/Game
+	// core/game
 	static double GAME_TPS = 20; // tick(s) per second, 畫面與此同步更新
+
+	// core/view/console
+	// Window 的 size
+	static GameLib::Utils::Size2 WINDOW_SIZE;
+	static double WINDOW_FPS = 20;
 }
 
-
-// class Environment {
-// private:
-// 	Environment() {};
-// 	~Environment() {};
-
-// public:	
-// 	Environment(const Environment&) = delete;
-// 	Environment& operator=(const Environment&) = delete;
-// 	static Environment& get() {
-// 		static Environment instance;
-// 		return instance;
-// 	}
-
-// 	// Window 的 size
-// 	const Size2 WINDOW_SIZE;
 
 // 	// Icon 的 Cell size
 // 	const Size2 GAME_WINDOW_SCALE = {1, 5};
@@ -42,7 +31,7 @@ namespace GameLib::Env {
 // 		GAME_WINDOW.width * GAME_WINDOW_CELL.width,
 // 		GAME_WINDOW.height * GAME_WINDOW_CELL.height
 // 	};
-// 	const double SPF = 0.05;
+
 
 // 	IGameConfig(const Size2& fs)
 // 		: fieldSize(fs),
@@ -54,6 +43,3 @@ namespace GameLib::Env {
 // 			GAME_WINDOW.width * GAME_WINDOW_CELL.width,
 // 			GAME_WINDOW.height * GAME_WINDOW_CELL.height
 // 		}) {}
-
-
-// };

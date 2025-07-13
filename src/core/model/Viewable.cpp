@@ -1,4 +1,4 @@
-#include "model/object/Viewable.h"
+#include "gamelib/core/model/Viewable.h"
 
 size_t Viewable::icon_width() const {
 	return icon_.empty() ? 0 : icon_[0].size();

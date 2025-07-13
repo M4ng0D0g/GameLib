@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IView.h"
+#include "View.hpp"
 #include "IModel.h"
 #include "utils/Unit.h"
 #include "utils/AnsiPrint.h"
@@ -11,7 +11,7 @@
 #include <utility>
 #include <memory>
 
-class ConsoleView : public IView {
+class ConsoleView : public View {
 public:
 	using Ptr = std::unique_ptr<ConsoleView>;
 

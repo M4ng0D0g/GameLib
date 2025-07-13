@@ -2,13 +2,19 @@
 
 #include <memory>
 
-class IView {
+namespace GameLib::Core {
+	class View {
 public:
-	using Ptr = std::unique_ptr<IView>;
+	using U_Ptr = std::unique_ptr<View>;
 
 	virtual void update() = 0;
 	virtual void render() const = 0;
 };
+}
+
+
+
+
 
 /*
 #pragma once

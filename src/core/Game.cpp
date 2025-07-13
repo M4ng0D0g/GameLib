@@ -1,6 +1,6 @@
 #include "gamelib/core/Game.hpp"
 #include "gamelib/Env.hpp"
-#include "gamelib/utils/Time.h"
+#include "gamelib/utils/Time.hpp"
 #include <ctime>
 #include <iostream>
 

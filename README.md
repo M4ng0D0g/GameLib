@@ -65,6 +65,8 @@ public:
 ### Model
 用來存放遊戲資料，由 Game class 管控，需要提供特定獲取資料方式
 
+- `GameObjectModel` - 遊戲物件的基底類別
+
 ### Controller
 用來操作遊戲資料，將對應 Model class 注入作為參數
 
