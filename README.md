@@ -1,18 +1,21 @@
 # GameLib
 Useful for simple terminal game.
 
-## 基礎設置
-
-### 針對 Class 封裝特定智能指標
-```cpp
-using Class::U_Ptr = std::unique_ptr<Class>;
-using Class::S_Ptr = std::shared_ptr<Class>;
-using Class::W_Ptr = std::weak_ptr<Class>;
-```
-
 ---
 
 # Documentation
+
+## `GameLib::Env`
+```cpp
+// connect/Server
+static int SERVER_PORT;
+static int MAX_CLIENTS;
+
+// core/Game
+static double GAME_TPS; // tick(s) per second
+
+```
+
 
 ## `GameLib::Core`
 
