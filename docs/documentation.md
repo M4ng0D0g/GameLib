@@ -7,6 +7,11 @@
 - 支援 Console 顯示（位於 `view/console/`）
 - 狀態機管理各階段狀態（位於 `GameState`）
 
+## 📚 目錄
+
+- 🧱 [架構設計](docs/architecture.md)
+- 🧵 [多執行緒設計](docs/threading.md)
+
 ## `GameLib::Env`
 ```cpp
 // network/Server
