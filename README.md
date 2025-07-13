@@ -1,7 +1,6 @@
 # GameLib
 Useful for simple terminal game.
 
----
 
 # Documentation
 
@@ -62,29 +61,29 @@ public:
 
 ### 事件發布 & 訂閱
 
----
 ## MVC架構
 
 ### Model
-用來存放遊戲資料，由 Game class 管控，需要提供特定獲取資料方式
+> 用來存放遊戲資料，由 Game class 管控，需要提供特定獲取資料方式
 
 - `GameObjectModel` - 遊戲物件的基底類別
 
 ---
 
-### Controller
-用來操作遊戲資料，將對應 Model class 注入作為參數
-
----
-
 ### View
-用來顯示，需要提供特定方法
+> 用來顯示，需要提供特定方法
+- IView - View 介面，顯示需要實作自這個介面
 
-### [UI]
-
-- 提供基礎終端機模板
+```md
+提供基礎終端機顯示，位於 `view/console`
+```
+- `ConsoleWindow` - 實作自 `IView`，允許放入 `ConsoleUI` 之子類和 `ConsoleIcon`
 
 ---
+
+### Controller
+> 用來操作遊戲資料，將對應 Model class 注入作為參數
+
 
 ## `GameLib::Network`
 
