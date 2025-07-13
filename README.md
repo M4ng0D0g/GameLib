@@ -72,21 +72,30 @@ public:
 ## MVC架構
 
 ### Model
-> 用來存放遊戲資料，由 Game class 管控，需要提供特定獲取資料方式
 
 - `GameObjectModel` - 遊戲物件的基底類別
 
 ---
 
 ### View
-> 用來顯示，需要提供特定方法
 
-- `IView` - View 介面，顯示需要實作自這個介面
+- `IView` - 純虛 View 介面，顯示需要實作自這個介面
+
+- `View` - 繼承自 `IView` 的基底類，提供部分基礎實作，純程式 View 可以繼承自此類
+- `Screen` - 用來顯示畫面，每個 `View` 同時只能顯示一個 `Screen`
+- `BaseUI` - 用來自訂畫面顯示和排版， 每個 `Screen` 和 `BaseUI` 可以具有多個 `BaseUI`
 
 ```md
 提供基礎終端機顯示，位於 `view/console`
 ```
-- `ConsoleWindow` - 實作自 `IView`，允許放入 `ConsoleUI` 之子類和 `ConsoleIcon`
+- `ConsoleWindow` - 實作自 `View`，允許放入 `ConsoleScreen`
+
+- `ConsoleScreen` - 實作自 `Screen`，允許放入 `ConsoleUI` 之子類和 `ConsoleIcon`
+
+- `ConsoleUI` - 終端機 UI 基底類別
+```cpp
+pivot_
+```
 
 ---
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "utils/Unit.h"
-#include "utils/AnsiPrint.h"
-#include "utils/Icon.h"
+#include "gamelib/utils/Unit.hpp"
+#include "gamelib/utils/AnsiPrint.hpp"
+#include "gamelib/utils/Icon.hpp"
 #include "BorderPatterns.h"
 #include <vector>
 #include <memory>
