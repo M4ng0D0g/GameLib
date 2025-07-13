@@ -62,22 +62,31 @@ public:
 
 ### 事件發布 & 訂閱
 
+---
+## MVC架構
+
 ### Model
 用來存放遊戲資料，由 Game class 管控，需要提供特定獲取資料方式
 
 - `GameObjectModel` - 遊戲物件的基底類別
 
+---
+
 ### Controller
 用來操作遊戲資料，將對應 Model class 注入作為參數
+
+---
 
 ### View
 用來顯示，需要提供特定方法
 
-# [UI]
+### [UI]
 
 - 提供基礎終端機模板
 
-# [Connection]
+---
+
+## `GameLib::Network`
 
 
 ```cpp
