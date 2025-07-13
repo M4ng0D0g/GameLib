@@ -6,7 +6,8 @@
 namespace GameLib::Core {
 
 	struct GameConfig {
-		GameConfig() = default;
+		using S_Ptr = std::shared_ptr<GameConfig>;
+		~GameConfig() = default;
 	};
 
 }

@@ -12,18 +12,50 @@ using Class::W_Ptr = std::weak_ptr<Class>;
 
 ---
 
-# 主要設計
+# Documentation
 
 ## `GameLib::Core`
 
 ### 遊戲基礎
 
-- **[Class]** `Game` - 遊戲 Class 必須繼承自的基底類別
+- `Game` - 遊戲 Class 必須繼承自的基底類別
+```cpp
+class Game {
+public:
+	// 初始化遊戲 (GameConfig 可用於繼承 + 指標轉型)
+	virtual void setup(const GameConfig::S_Ptr) = 0;
 
-- **[Struct]** `GameConfig` - 遊戲初始資料，自行設計並在 `void Game::setup(const GameConfig&)` 使用
+	// 僅負責遊戲邏輯部分，實作需用 `bool tryStart()` 安全啟動遊戲
+	virtual void start() = 0;
+
+	// 遊戲結束,有情況結束 (Win/Lose is implated by derived.)
+	void end();
+
+	// 解除初始化
+	virtual void reset() = 0;
+};
+```
+
+- `GameConfig` - 遊戲初始資料，自行繼承並實作並在 `void Game::setup(const GameConfig::S_Ptr)` 使用
+```cpp
+struct GameConfig {
+	using S_Ptr = std::shared_ptr<GameConfig>;
+};
+```
 
 ### 狀態機
-- `GameState`
+
+- `GameState` - 遊戲狀態，放在變數 `Game.currentState_`
+```cpp
+class GameState {
+public:
+	using U_Ptr = std::unique_ptr<GameState>;
+
+	virtual void onEnter(Game& game) = 0;
+	virtual void onUpdate(Game& game) = 0;
+	virtual void onExit(Game& game) = 0;
+};
+```
 
 ### 事件發布 & 訂閱
 
@@ -41,3 +73,11 @@ using Class::W_Ptr = std::weak_ptr<Class>;
 - 提供基礎終端機模板
 
 # [Connection]
+
+
+```cpp
+
+```
+```cpp
+
+```

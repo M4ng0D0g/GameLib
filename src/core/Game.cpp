@@ -1,15 +1,18 @@
 #include "gamelib/core/Game.hpp"
 #include "gamelib/Env.hpp"
+#include "gamelib/utils/Time.h"
 #include <ctime>
-#include <thread>
-#include <chrono>
+#include <iostream>
 
 namespace GameLib::Core {
 
-	Game::Game() : SPT_(GameLib::Env::GAME_TPS) {}
+	Game::Game()
+	: SPT_(1.0 / GameLib::Env::GAME_TPS), initialized_(false), running_(false), totalTicks_(0) {}
 
 	// State Machine for Step-Based
 	void Game::setState(GameState::U_Ptr newState) {
+		std::lock_guard<std::mutex> lock(stateMutex_);
+
 		if (currentState_) currentState_->onExit(*this);
 		currentState_ = std::move(newState);
 		if (currentState_) currentState_->onEnter(*this);
@@ -17,39 +20,55 @@ namespace GameLib::Core {
 
 	// 可能要做 update(action)
 	void Game::updateState() {
+		std::lock_guard<std::mutex> lock(stateMutex_);
+		
 		if (currentState_) currentState_->onUpdate(*this);
 	}
 
-	/*
-	TODO: 步進機制與即時機制
-	步進如果搭配動畫需要做[允許操作]檢查
-	及時機制需要作時間校正、分批處理機制or多執行序
-	*/
-	void Game::loop() {
-		// initial setup
-		// std::cin.tie(0);
-		// std::ios::sync_with_stdio(0);
-		// configure_terminal();
+	bool Game::tryStart() {
+		try {
+			if (running_) throw(std::runtime_error("遊戲正在運行!"));
+			if (!initialized_) throw(std::runtime_error("遊戲需要先初始化!"));
 
-		// init state
-		clock_t startTime, endTime;
+			running_ = true;
 
-		// Main loop
-		while(running_) {
-			startTime = clock();
+			// initial setup
+			// std::cin.tie(0);
+			// std::ios::sync_with_stdio(0);
+			// configure_terminal();
 
-			// GameFlow
-			updateState();
+			gameThread_ = std::thread([this]() { this->loop(); });
 
-			endTime = clock();
+			return true;
 
-			// tick rate normalization
-			double timeTaken = (static_cast<double>(endTime - startTime)) / CLOCKS_PER_SEC;
-			if (timeTaken > SPT_) continue;
-			int tickDelay = static_cast<int>((SPT_ - timeTaken) * 1000); // 0.1 seconds
-			if (tickDelay > 0) std::this_thread::sleep_for(std::chrono::milliseconds(tickDelay)); // tick delay
+		} catch (const std::exception& e) {
+			std::cerr << e.what() << std::endl;
+			return false;
 		}
+	}
 
+	void Game::end() {
+		running_ = false;
+		if (gameThread_.joinable()) gameThread_.join();
+	}
+
+	void Game::loop() {
+		auto tickDuration = std::chrono::duration<double>(SPT_);
+
+		while(running_) {
+			auto startTime = GameLib::Utils::StedayClock::now();
+
+			updateState();
+			++totalTicks_;
+
+			auto endTime = GameLib::Utils::StedayClock::now();
+			std::chrono::duration<double> elapsed = endTime - startTime;
+
+			if (elapsed < tickDuration) {
+				auto sleepTime = std::chrono::duration_cast<std::chrono::milliseconds>(tickDuration - elapsed);
+				std::this_thread::sleep_for(sleepTime);
+			}
+		}
 		end();
 	}
 	
