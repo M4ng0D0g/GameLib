@@ -18,16 +18,16 @@ using Class::W_Ptr = std::weak_ptr<Class>;
 
 ### 遊戲基礎
 
-> **[Class]** `Game` - 遊戲 Class 必須繼承自的基底類別
-	1. 初始化時需要讀取 `GameLib::Env` 設定 `GAME_TPS`
-	2. 子類自行設計存放 Controller 和 Model
-	3. 子類需要實做 `void setup(const GameConfig&)`, `void start()`, `void end()`, `void reset()`
-	4. `void setup(const GameConfig&)` 需要設定 `bool initialized_` 為 `true`，否則無法開始遊戲
-	5. `Game` 已在 `void loop()` 實作基礎流程，遊戲流程透過狀態機實現
+**[Class]** `Game` - 遊戲 Class 必須繼承自的基底類別
+> 1. 初始化時需要讀取 `GameLib::Env` 設定 `GAME_TPS` \n
+> 2. 子類自行設計存放 Controller 和 Model \n
+> 3. 子類需要實做 `void setup(const GameConfig&)`, `void start()`, `void end()`, `void reset()` \n
+> 4. `void setup(const GameConfig&)` 需要設定 `bool initialized_` 為 `true`，否則無法開始遊戲 \n
+> 5. `Game` 已在 `void loop()` 實作基礎流程，遊戲流程透過狀態機實現 \n
 
 ---
 
-- **[Struct]** `GameConfig` - 遊戲初始資料，自行設計並在 `void Game::setup(const GameConfig&)` 使用
+**[Struct]** `GameConfig` - 遊戲初始資料，自行設計並在 `void Game::setup(const GameConfig&)` 使用
 
 ### 狀態機
 - `GameState`
