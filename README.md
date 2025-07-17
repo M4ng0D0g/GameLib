@@ -12,8 +12,10 @@ C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒�
 
 ## 📚 文件導覽
 
+### 🧱 [Documentation] - 架構設計與核心模組說明
 - 🧱 [Documentation](docs/documentation.md) - 架構設計與核心模組說明
-- 📜 [Changelog](CHANGELOG.md) - 每次更新紀錄與版本變更
+
+### 📜 Changelog - 每次更新紀錄與版本變更
 - 🧪 `tests/` - 單元測試與使用範例（待補充）
 
 ## 🖥️ CONSOLELOG 模組
