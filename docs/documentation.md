@@ -13,6 +13,9 @@
 - 🧵 [多執行緒設計](docs/threading.md)
 
 ## `GameLib::Env`
+
+需要先設定參數 (最優先)
+
 ```cpp
 // network/Server
 static int SERVER_PORT;

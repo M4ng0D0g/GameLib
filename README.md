@@ -1,7 +1,5 @@
 # 🎮 GameLib
 
-Useful for simple terminal game.
-
 C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒與 Server/Client 模組。  
 提供一套輕量、可擴充的基礎架構，讓 C++ 遊戲開發變得更簡單、更有組織，適合用於：
 
@@ -12,15 +10,11 @@ C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒�
 
 🚀 **支援擴充性強、模組分離清晰，易於維護與多人協作！**
 
----
-
 ## 📚 文件導覽
 
 - 🧱 [Documentation](docs/documentation.md) - 架構設計與核心模組說明
 - 📜 [Changelog](CHANGELOG.md) - 每次更新紀錄與版本變更
 - 🧪 `tests/` - 單元測試與使用範例（待補充）
-
----
 
 ## 🖥️ CONSOLELOG 模組
 
@@ -31,8 +25,6 @@ GameLib 內建一套簡單的 Console 輸出系統，支援：
 
 你可以在 `view/console/` 中找到相關實作，並搭配 Icon 資訊在遊戲畫面中即時顯示模型狀態。
 
----
-
 ## 👤 作者資訊
 
 | 作者      | 連結                                  |
@@ -40,8 +32,6 @@ GameLib 內建一套簡單的 Console 輸出系統，支援：
 | M4ng0D0g  | [GitHub 頁面](https://github.com/M4ng0D0g) |
 
 歡迎 PR、Issue 或提出任何建議！
-
----
 
 ## 🛡️ 版權聲明
 
