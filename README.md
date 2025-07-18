@@ -24,8 +24,8 @@ C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒�
 想要使用 GameLib 開發，可以依照以下步驟：
 ```
 
-### 1. 製作遊戲主架構 `GameLib::Core`
 ---
+### 1. 製作遊戲主架構 `GameLib::Core`
 ### `🏗️ 遊戲基礎`
 - `Game` - 遊戲 Class 必須繼承自的基底類別
 ```cpp
@@ -85,8 +85,12 @@ public:
 
 
 
-### 2. 使用 GameLib 功能優化你的遊戲 (如事件系統、連線、顯示等)，或加入其他 lib
+
 ---
+### 2. 優化你的遊戲
+```
+用 GameLib 功能 (如事件系統、連線、顯示等)，或加入其他 lib
+```
 ### `事件發布 & 訂閱`
 - `Event` - 所有事件類型的基底
 - `Listener<EventT>` - 監聽特定事件 `EventT` 的監聽器基底
@@ -115,7 +119,7 @@ pivot_
 ```
 
 
-
+---
 ### 3. 設定 `GameLib::Env`
 ```cpp
 // network/Server
@@ -127,6 +131,7 @@ static double GAME_TPS = 20; // tick(s) per second
 
 ```
 
+---
 ### 4. 大功告成
 
 
