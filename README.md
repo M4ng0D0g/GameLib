@@ -69,7 +69,6 @@ public:
 #### Model
 - `GameObjectModel` - 遊戲物件的基底類別
 
----
 #### View
 - `IView` - 純虛 View 介面，顯示需要實作自這個介面
 
@@ -77,7 +76,6 @@ public:
 - `Screen` - 用來顯示畫面，每個 `View` 同時只能顯示一個 `Screen`
 - `BaseUI` - 用來自訂畫面顯示和排版， 每個 `Screen` 和 `BaseUI` 可以具有多個 `BaseUI`
 
----
 #### Controller
 > 用來操作遊戲資料，將對應 Model class 注入作為參數
 
