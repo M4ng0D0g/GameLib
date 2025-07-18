@@ -23,129 +23,55 @@ C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒�
 
 想要使用 GameLib 開發，可以依照以下步驟：
 
-1. 設定參數
-2. 繼承並實作 `Game`、`Model`、`Controller`、`View`
-3. 使用 GameLib 功能優化你的遊戲 (如事件系統、連線、顯示等)，或加入其他 lib
-4. 大功告成
-
-## `GameLib::Env`
-
-```cpp
-// network/Server
-static int SERVER_PORT;
-static int MAX_CLIENTS;
-
-// core/Game
-static double GAME_TPS = 20; // tick(s) per second
-
-```
-
-## `GameLib::Core`
-
-### 🎮 遊戲基礎
-
+## 1. 製作遊戲基礎
 - `Game` - 遊戲 Class 必須繼承自的基底類別
-```cpp
-class Game {
-public:
-	// 初始化遊戲 (GameConfig 可用於繼承 + 指標轉型)
-	virtual void setup(const GameConfig::S_Ptr) = 0;
-
-	// 僅負責遊戲邏輯部分，實作需用 `bool tryStart()` 安全啟動遊戲
-	virtual void start() = 0;
-
-	// 遊戲結束,有情況結束 (Win/Lose is implated by derived.)
-	void end();
-
-	// 解除初始化
-	virtual void reset() = 0;
-};
-```
-
 - `GameConfig` - 遊戲初始資料，自行繼承並實作並在 `void Game::setup(const GameConfig::S_Ptr)` 使用
-```cpp
-struct GameConfig {
-	using S_Ptr = std::shared_ptr<GameConfig>;
-};
-```
 
 ### 🔁 狀態機
-
 - `GameState` - 遊戲狀態，放在變數 `Game.currentState_`
-```cpp
-class GameState {
-public:
-	using U_Ptr = std::unique_ptr<GameState>;
 
-	virtual void onEnter(Game& game) = 0;
-	virtual void onUpdate(Game& game) = 0;
-	virtual void onExit(Game& game) = 0;
-};
-```
+### MVC架構
 
-### 事件發布 & 訂閱
-
-- `Event` - 所有事件類型的基底
-```cpp
-class Event {
-public:
-	virtual ~Event() = default;
-};
-```
-
-- `Listener<EventT>` - 監聽特定事件 `EventT` 的監聽器基底
-```cpp
-template <typename T>
-class Listener : public std::enable_shared_from_this<Listener<T>> {
-public:
-	using U_Ptr = std::unique_ptr<Listener>;
-	using S_Ptr = std::shared_ptr<Listener>;
-	using W_Ptr = std::weak_ptr<Listener>;
-
-	virtual ~Listener() = default;
-
-	virtual bool onEvent(const std::shared_ptr<T>&) = 0;
-	virtual void autoRegister(EventBus&) {}
-};
-```
-
-- `EventBus` - 事件總線，用來集合相關的訂閱者和事件
-```cpp
-class EventBus {
-public:
-	virtual ~EventBus() = default;
-
-	template <typename T>
-	void subscribe(ListenerW_Ptr<T> listener);
-
-	template <typename T>
-	void unsubscribe(ListenerW_Ptr<T> listener);
-
-	template <typename T>
-	void publish(std::shared_ptr<T>& event);~
-};
-
-```
-
-
-
-
-
-## MVC架構
-
-### Model
+#### Model
 
 - `GameObjectModel` - 遊戲物件的基底類別
 
 ---
 
-### View
+#### View
 
 - `IView` - 純虛 View 介面，顯示需要實作自這個介面
 
 - `View` - 實作自 `IView` 的基底類，提供部分基礎實作，純程式 View 可以繼承自此類
 - `Screen` - 用來顯示畫面，每個 `View` 同時只能顯示一個 `Screen`
 - `BaseUI` - 用來自訂畫面顯示和排版， 每個 `Screen` 和 `BaseUI` 可以具有多個 `BaseUI`
+
+
+---
+
+#### Controller
+> 用來操作遊戲資料，將對應 Model class 注入作為參數
+
+
+
+
+
+## 2. 使用 GameLib 功能優化你的遊戲 (如事件系統、連線、顯示等)，或加入其他 lib
+
+### 事件發布 & 訂閱
+- `Event` - 所有事件類型的基底
+- `Listener<EventT>` - 監聽特定事件 `EventT` 的監聽器基底
+- `EventBus` - 事件總線，用來集合相關的訂閱者和事件
+
+### `GameLib::Network`
+
+
+```cpp
+
+```
+```cpp
+
+```
 
 ```md
 提供基礎終端機顯示，位於 `view/console`
@@ -159,21 +85,22 @@ public:
 pivot_
 ```
 
----
-
-### Controller
-> 用來操作遊戲資料，將對應 Model class 注入作為參數
 
 
-## `GameLib::Network`
-
-
+## 3. 設定 `GameLib::Env`
 ```cpp
+// network/Server
+static int SERVER_PORT;
+static int MAX_CLIENTS;
+
+// core/Game
+static double GAME_TPS = 20; // tick(s) per second
 
 ```
-```cpp
 
-```
+4. 大功告成
+
+
 
 # 🧱 Documentation
 - [Documentation](docs/documentation.md) - 架構設計與核心模組說明
