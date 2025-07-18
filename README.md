@@ -18,14 +18,15 @@ C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒�
 
 🚀 **支援擴充性強、模組分離清晰，易於維護與多人協作！**
 
-
+---
 # 🛠️ Getting Started
 ```
 想要使用 GameLib 開發，可以依照以下步驟：
 ```
 
 ### 1. 製作遊戲主架構 `GameLib::Core`
-#### `🏗️ 遊戲基礎`
+---
+### `🏗️ 遊戲基礎`
 - `Game` - 遊戲 Class 必須繼承自的基底類別
 ```cpp
 class Game {
@@ -51,7 +52,7 @@ struct GameConfig {
 };
 ```
 
-#### `🔁 狀態機`
+### `🔁 狀態機`
 - `GameState` - 遊戲狀態，放在變數 `Game.currentState_`
 ```cpp
 class GameState {
@@ -64,25 +65,19 @@ public:
 };
 ```
 
-#### `🎭 MVC架構`
-
+### `🎭 MVC架構`
 #### Model
-
 - `GameObjectModel` - 遊戲物件的基底類別
 
 ---
-
 #### View
-
 - `IView` - 純虛 View 介面，顯示需要實作自這個介面
 
 - `View` - 實作自 `IView` 的基底類，提供部分基礎實作，純程式 View 可以繼承自此類
 - `Screen` - 用來顯示畫面，每個 `View` 同時只能顯示一個 `Screen`
 - `BaseUI` - 用來自訂畫面顯示和排版， 每個 `Screen` 和 `BaseUI` 可以具有多個 `BaseUI`
 
-
 ---
-
 #### Controller
 > 用來操作遊戲資料，將對應 Model class 注入作為參數
 
@@ -90,9 +85,9 @@ public:
 
 
 
-## 2. 使用 GameLib 功能優化你的遊戲 (如事件系統、連線、顯示等)，或加入其他 lib
-
-### 事件發布 & 訂閱
+### 2. 使用 GameLib 功能優化你的遊戲 (如事件系統、連線、顯示等)，或加入其他 lib
+---
+### `事件發布 & 訂閱`
 - `Event` - 所有事件類型的基底
 - `Listener<EventT>` - 監聽特定事件 `EventT` 的監聽器基底
 - `EventBus` - 事件總線，用來集合相關的訂閱者和事件
@@ -121,7 +116,7 @@ pivot_
 
 
 
-## 3. 設定 `GameLib::Env`
+### 3. 設定 `GameLib::Env`
 ```cpp
 // network/Server
 static int SERVER_PORT;
@@ -132,7 +127,7 @@ static double GAME_TPS = 20; // tick(s) per second
 
 ```
 
-4. 大功告成
+### 4. 大功告成
 
 
 
