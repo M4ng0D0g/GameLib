@@ -4,7 +4,7 @@
 
 // ***************************************************************************/
 
-namespace GameLib::Utils {
+namespace GameLib::Utils::Time {
 
 	using Time = uint64_t;
 	using SystemClock = std::chrono::system_clock;

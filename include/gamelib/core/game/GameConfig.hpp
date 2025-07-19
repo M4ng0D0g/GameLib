@@ -3,7 +3,7 @@
 // #include "utils/Unit.h"
 #include <memory>
 
-namespace GameLib::Core {
+namespace GameLib::Core::Game {
 
 	struct GameConfig {
 		using S_Ptr = std::shared_ptr<GameConfig>;

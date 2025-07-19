@@ -1,17 +1,26 @@
 #pragma once
 
 #include "Message.hpp"
+#include "gamelib/utils/Unit.hpp"
+#include "gamelib/utils/Time.hpp"
 #include <memory>
 #include <functional>
 #include <queue>
 #include <mutex>
 
+using namespace GameLib::Utils;
+
 namespace GameLib::Network {
 
 	class SessionModel : public std::enable_shared_from_this<SessionModel> {
 	private:
-		int sessionId_;
+		static Unit::Token curSessionId_;
+		SessionModel(Unit::Token token, ENetPeer* peer) : sessionId_(token), peer_(peer);
+
+		Unit::Token sessionId_;
+		ENetPeer* peer_;
 		bool connected_;
+		Time::Time offlineTime_; 
 
 		std::queue<Message::S_Ptr> recvQueue_;
 		std::mutex queueMutex_;
@@ -21,6 +30,9 @@ namespace GameLib::Network {
 
 	public:
 		using S_Ptr = std::shared_ptr<SessionModel>;
+		static S_Ptr create(Unit::Token token, ENetPeer* peer) {
+			return S_Ptr(new SessionModel(token, peer));
+		}
 
 		explicit SessionModel(int sessionId);
 		~SessionModel();
@@ -31,6 +43,11 @@ namespace GameLib::Network {
 		void setDisconnectHandler(std::function<void(int)> handler);
 		void start();
 		void stop();
+
+		void online() { isOnline_ = true; }
+		void offline() { isOnline_ = false; offlineTime_ = Time::steadyNowMs(); }
+		bool isOnline() { return isOnline_; }
+		Time::time getOfflineTime() { return offlineTime_; }
 	};
 
 	/*

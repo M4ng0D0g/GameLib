@@ -1,10 +1,10 @@
-#include "gamelib/core/Game.hpp"
+#include "gamelib/core/game/Game.hpp"
 #include "gamelib/Env.hpp"
 #include "gamelib/utils/Time.hpp"
 #include <ctime>
 #include <iostream>
 
-namespace GameLib::Core {
+namespace GameLib::Core::Game {
 
 	Game::Game()
 	: SPT_(1.0 / GameLib::Env::GAME_TPS), initialized_(false), running_(false), totalTicks_(0) {}

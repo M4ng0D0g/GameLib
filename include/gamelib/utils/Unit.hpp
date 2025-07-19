@@ -3,7 +3,9 @@
 #include <cstddef>
 #include <vector>
 
-namespace GameLib::Utils {
+namespace GameLib::Utils::Unit {
+
+	using Token = size_t;
 
 	struct Loc2 {
 		int x;

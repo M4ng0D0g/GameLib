@@ -4,7 +4,7 @@
 #include <memory>
 
 
-namespace GameLib::Core {
+namespace GameLib::Core::Game {
 
 	class Game;
 

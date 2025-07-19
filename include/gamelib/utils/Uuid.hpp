@@ -8,7 +8,7 @@
 
 // ***************************************************************************/
 
-namespace GameLib::Utils {
+namespace GameLib::Utils::Uuid {
 
 	using UuidV4 = std::string;
 

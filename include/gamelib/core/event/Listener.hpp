@@ -5,7 +5,7 @@
 #include <memory>
 #include <type_traits>
 
-namespace GameLib::Core {
+namespace GameLib::Core::Event {
 
 	class EventBus;
 	class Event;

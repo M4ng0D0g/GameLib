@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <mutex>
 
-namespace GameLib::Core {
+namespace GameLib::Core::Event {
 
 	class Event;
 	using Token = size_t;

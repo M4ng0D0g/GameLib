@@ -8,7 +8,7 @@
 #include <thread>
 #include <mutex>
 
-namespace GameLib::Core {
+namespace GameLib::Core::Game {
 	
 	/*
 	1. 初始化時需要讀取 `GameLib::Env` 設定 `GAME_TPS`
