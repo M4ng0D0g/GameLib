@@ -58,3 +58,12 @@ target_compile_definitions(GameLib PRIVATE
     PLATFORM_DESKTOP
     ASIO_STANDALONE       # 使用 Asio standalone 時必加
 )
+
+# ----------------------------
+# 加入 test 子專案（新增）
+# ----------------------------
+option(NETWORK_TESTS "Network tests" OFF) # cmake -DNETWORK_TESTS=ON ..
+
+if(NETWORK_TESTS)
+    add_subdirectory(test/network)
+endif()

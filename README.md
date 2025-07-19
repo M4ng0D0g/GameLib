@@ -1,20 +1,14 @@
 # 🎮 GameLib
 
-C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒與 Server/Client 模組。  
+```
+C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒與 Server/Client 模組。
 提供一套輕量、可擴充的基礎架構，讓 C++ 遊戲開發變得更簡單、更有組織，適合用於：
+```
 
 - 回合制或即時制遊戲原型開發
 - 學習設計模式（如 MVC、State Machine）
-- 終端機互動遊戲系統
+- 終端機互動遊戲系統(提供輕量 ConsoleView 實作)
 - 整合你自己的圖形 / 音效 / 網路等外部 Lib
-
-```
-特色：
-- 使用 `Game` 為基底管理遊戲流程
-- 遊戲邏輯與顯示分離（MVC 架構）
-- 支援 Console 顯示（位於 `view/console/`）
-- 狀態機管理各階段狀態（位於 `GameState`）
-```
 
 🚀 **支援擴充性強、模組分離清晰，易於維護與多人協作！**
 
@@ -33,14 +27,22 @@ public:
 	// 初始化遊戲 (GameConfig 可用於繼承 + 指標轉型)
 	virtual void setup(const GameConfig::S_Ptr) = 0;
 
-	// 僅負責遊戲邏輯部分，實作需用 `bool tryStart()` 安全啟動遊戲
-	virtual void start() = 0;
+	// 檢查並啟動遊戲
+	// 可以自行實作 start() 相關的開始方法
+	bool tryStart();
 
-	// 遊戲結束,有情況結束 (Win/Lose is implated by derived.)
+	// 結束遊戲
+	// 可以自行實作 win(), lose(), eliminate() 相關的結束方法
 	void end();
+
 
 	// 解除初始化
 	virtual void reset() = 0;
+
+protected:
+	// 已有安全設計，由 tryStart() 呼叫
+	// 實作遊戲邏輯需要透過狀態機
+	void loop();
 };
 ```
 
@@ -53,7 +55,7 @@ struct GameConfig {
 
 ---
 ### `🔁 狀態機`
-- `GameState` - 遊戲狀態，放在變數 `Game.currentState_`
+- `GameState` - 遊戲狀態，放在成員 `Game.currentState_`
 ```cpp
 class GameState {
 public:
@@ -64,11 +66,20 @@ public:
 	virtual void onExit(Game& game) = 0;
 };
 ```
+```cpp
+class Game {
+protected:
+	GameState::U_Ptr currentState_;
+};
+```
 
 ---
 ### `🎭 MVC架構`
 #### Model
 - `GameObjectModel` - 遊戲物件的基底類別
+- `GamePlayerModel` - 繼承 `GameObjectModel`，遊戲玩家的基底類別
+
+- `UserModel` - 用戶基底類別，允許擴充非遊戲資料，組合 `SessionModel::?_Ptr`
 
 #### View
 - `IView` - 純虛 View 介面，顯示需要實作自這個介面
@@ -133,18 +144,52 @@ public:
 
 ---
 ### `GameLib::Network`
+#### TCP Connection
+- TCPServer - 
+```cpp
+	class TCPServer {
+	public:
+		TCPServer(unsigned short port);
 
+		void start();
+		void stop();
+	};
+```
 
+- TCPClient -
+```cpp
+	class TCPClient {
+	public:
+		TCPClient(const std::string& host, unsigned short port);
+
+		void connect();
+		void send(const std::string& message);
+		void disconnect();
+
+	};
+```
+#### UDP Connection
+- UDPServer - 
 ```cpp
 
 ```
+
+- UDPClient -
+```cpp
+
+```
+#### 連線相關類
+- Message - 
 ```cpp
 
 ```
 
-```md
+- SessionModel - 便於 `GameLib::Core` 管理的 Client 端 Model
+```cpp
 
+```
 ---
+```md
 提供基礎終端機顯示，位於 `view/console`
 ```
 - `ConsoleWindow` - 繼承自 `View`，允許放入 `ConsoleScreen`

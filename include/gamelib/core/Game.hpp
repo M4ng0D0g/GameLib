@@ -35,9 +35,14 @@ namespace GameLib::Core {
 		// 遊戲數值
 		GameState::U_Ptr currentState_;
 		uint64_t totalTicks_;
-
-		// 確認初始化才開始並建立 thread
-		bool tryStart();
+		
+		// --------------------------------------------------------------------------------
+		/*
+		TODO: 步進機制與即時機制
+		步進如果搭配動畫需要做[允許操作]檢查
+		及時機制需要作時間校正、分批處理機制or多執行序
+		*/
+		void loop();
 
 	public:
 		Game();
@@ -54,22 +59,18 @@ namespace GameLib::Core {
 		// 初始化遊戲 (GameConfig 可用於繼承 + 指標轉型)
 		virtual void setup(const GameConfig::S_Ptr) = 0;
 
-		// 僅負責遊戲邏輯部分，實作需用 `bool tryStart()` 安全啟動遊戲
-		virtual void start() = 0;
+		// 檢查並啟動遊戲
+		// 可以自行實作 start() 相關的開始方法
+		bool tryStart();
 
-		// 遊戲結束,有情況結束 (Win/Lose is implated by derived.)
+		// 結束遊戲
+		// 可以自行實作 win(), lose(), eliminate() 相關的結束方法
 		void end();
 
 		// 解除初始化
 		virtual void reset() = 0;
 
-		// --------------------------------------------------------------------------------
-		/*
-		TODO: 步進機制與即時機制
-		步進如果搭配動畫需要做[允許操作]檢查
-		及時機制需要作時間校正、分批處理機制or多執行序
-		*/
-		void loop();
+		
 	};
 
 }
