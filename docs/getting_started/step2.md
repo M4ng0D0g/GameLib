@@ -25,7 +25,3 @@ using namespace GameLib::Core::Game;
 ---
 ### `⬅️ 上一步：` [製作遊戲主架構](docs/getting_started/step1.md)
 ### `➡️ 下一步：` [加入事件系統](docs/getting_started/step3.md)
-1. [製作遊戲主架構](docs/getting_started/step1.md)
-2. [加入 MVC 架構](docs/getting_started/step2.md)
-3. [加入事件系統](docs/getting_started/step3.md)
-4. [使用基礎終端機顯示](docs/getting_started/step4.md)
