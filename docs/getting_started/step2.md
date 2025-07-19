@@ -23,5 +23,5 @@ using namespace GameLib::Core::Game;
 > 用來操作遊戲資料，將對應 Model class 注入作為參數
 
 ---
-### `⬅️ 上一步：` [製作遊戲主架構](step1.md)
-### `➡️ 下一步：` [加入事件系統](step3.md)
+#### `⬅️ 上一步：` [製作遊戲主架構](step1.md)
+#### `➡️ 下一步：` [加入事件系統](step3.md)

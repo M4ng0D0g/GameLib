@@ -17,14 +17,17 @@ C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒�
 ```
 想要使用 GameLib 開發，可以依照以下步驟：
 ```
-1. [製作遊戲主架構](docs/getting_started/step1.md)
-2. [加入 MVC 架構](docs/getting_started/step2.md)
-3. [加入事件系統](docs/getting_started/step3.md)
-4. [使用基礎終端機顯示](docs/getting_started/step4.md)
-5. [使用 TCP/UDP 網路連線](docs/getting_started/step5.md)
+#### [1. 製作遊戲主架構](docs/getting_started/step1.md)
+#### [2. 加入 MVC 架構](docs/getting_started/step2.md)
+#### [3. 加入事件系統](docs/getting_started/step3.md)
+#### [4. 使用基礎終端機顯示](docs/getting_started/step4.md)
+#### [5. 使用 TCP/UDP 網路連線](docs/getting_started/step5.md)
 
 
 # 🧱 Documentation
+|Core|
+|--|--|
+|test|2|3
 - [Documentation](docs/documentation.md) - 架構設計與核心模組說明
 - GameCore
 	- Game

@@ -76,4 +76,4 @@ static double GAME_TPS = 20; // tick(s) per second
 ```
 
 ---
-### `➡️ 下一步：` [加入 MVC 架構](step2.md)
+#### `➡️ 下一步：` [加入 MVC 架構](step2.md)
