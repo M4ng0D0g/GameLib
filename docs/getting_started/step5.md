@@ -52,4 +52,4 @@ using namespace GameLib::Network;
 ```
 
 ---
-### `⬅️ 上一步：` [使用基礎終端機顯示](docs/getting_started/step4.md)
+### `⬅️ 上一步：` [使用基礎終端機顯示](step4.md)

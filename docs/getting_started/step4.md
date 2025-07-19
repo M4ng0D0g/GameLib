@@ -15,5 +15,5 @@ pivot_
 ```
 
 ---
-### `⬅️ 上一步：` [加入事件系統](docs/getting_started/step3.md)
-### `➡️ 下一步：` [使用 TCP/UDP 網路連線](docs/getting_started/step5.md)
+### `⬅️ 上一步：` [加入事件系統](step3.md)
+### `➡️ 下一步：` [使用 TCP/UDP 網路連線](step5.md)

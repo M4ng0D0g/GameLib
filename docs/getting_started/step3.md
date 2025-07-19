@@ -48,5 +48,5 @@ public:
 ```
 
 ---
-### `⬅️ 上一步：` [加入 MVC 架構](docs/getting_started/step2.md)
-### `➡️ 下一步：` [使用基礎終端機顯示](docs/getting_started/step4.md)
+### `⬅️ 上一步：` [加入 MVC 架構](step2.md)
+### `➡️ 下一步：` [使用基礎終端機顯示](step4.md)
