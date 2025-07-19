@@ -1,0 +1,23 @@
+- Core
+	- Game
+		- Game
+		- Model
+		- View
+		- Controller
+	- Event
+		- Event
+	- Party
+		- Party
+- Network
+	- TCP Connection
+		- TCPServer
+		- TCPClient
+	- UDP Connection
+		- UDPServer
+		- UDPClient
+	
+- Utils 
+	- RNG
+	- Time
+	- Uuid
+- Environment

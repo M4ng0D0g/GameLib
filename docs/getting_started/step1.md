@@ -34,6 +34,11 @@ protected:
 	void loop();
 };
 ```
+#### `⚙️ 環境變數`
+```cpp
+static double GAME_TPS = 20; // tick(s) per second
+
+```
 
 - `GameConfig` - 遊戲初始資料，自行繼承並實作並在 `void Game::setup(const GameConfig::S_Ptr)` 使用
 ```cpp
@@ -60,19 +65,6 @@ class Game {
 protected:
 	GameState::U_Ptr currentState_;
 };
-```
-
----
-## `⚙️ 環境變數`
-最後，設定好環境變數就大功告成!
-```cpp
-// network/Server
-static int SERVER_PORT;
-static int MAX_CLIENTS;
-
-// core/Game
-static double GAME_TPS = 20; // tick(s) per second
-
 ```
 
 ---

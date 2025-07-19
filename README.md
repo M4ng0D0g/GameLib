@@ -25,31 +25,9 @@ C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒�
 
 
 # 🧱 Documentation
-- [Documentation](docs/documentation.md) - 架構設計與核心模組說明
-| 模組         | 子模組           | 類別/元件              |
-|--------------|------------------|-------------------------|
-| **Core**     | Game             | Game, Model, View, Controller |
-|              | Event            | Event                   |
-|              | Party            | Party                   |
-| **Network**  | TCP Connection   | TCPServer, TCPClient    |
-|              | UDP Connection   | UDPServer, UDPClient    |
-| **Utils**    | RNG              | 隨機數生成              |
-|              | Time             | 時間工具                |
-|              | Uuid             | UUID 工具               |
-| **Environment** | -             | 環境變數 / 設定         |
-
-
-# 📜 Changelog - 每次更新紀錄與版本變更
-# 🧪 `tests/` - 單元測試與使用範例（待補充）
-
-# 🖥️ CONSOLELOG MODULE
-
-GameLib 內建一套簡單的 Console 輸出系統，支援：
-- 🎨 ASCII 美術渲染（支援彩色、動態）
-- 📦 多層級訊息：`info`, `debug`, `warning`, `error`
-- 🕹️ 與狀態機 / 模型資料結合，實現動態更新畫面
-
-你可以在 `view/console/` 中找到相關實作，並搭配 Icon 資訊在遊戲畫面中即時顯示模型狀態。
+- [Reference](docs/reference/index.md) - 架構設計與核心模組說明
+- [📜 Changelog](CHANGELOG.md) - 每次更新紀錄與版本變更
+- [🧪 Tests]() - 單元測試與使用範例（待補充）
 
 ## 👤 作者資訊
 

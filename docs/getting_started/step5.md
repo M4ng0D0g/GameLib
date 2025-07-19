@@ -3,10 +3,15 @@
 ```cpp
 using namespace GameLib::Network;
 ```
+- 環境變數命名空間
+```cpp
+using namespace GameLib::Env;
+```
 
 
 
 ## `TCP Connection`
+
 - TCPServer - 
 ```cpp
 	class TCPServer {
@@ -16,6 +21,11 @@ using namespace GameLib::Network;
 		void start();
 		void stop();
 	};
+```
+#### `⚙️ 環境變數`
+```cpp
+static int SERVER_PORT;
+static int MAX_CLIENTS;
 ```
 
 - TCPClient -
@@ -35,6 +45,11 @@ using namespace GameLib::Network;
 ```cpp
 
 ```
+#### `⚙️ 環境變數`
+```cpp
+static int SERVER_PORT;
+static int MAX_CLIENTS;
+```
 
 - UDPClient -
 ```cpp
@@ -50,6 +65,8 @@ using namespace GameLib::Network;
 ```cpp
 
 ```
+
+
 
 ---
 #### `⬅️ 上一步：` [使用基礎終端機顯示](step4.md)
