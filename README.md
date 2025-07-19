@@ -25,24 +25,19 @@ C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒�
 
 
 # 🧱 Documentation
-|Core|
-|--|--|
-|test|2|3
 - [Documentation](docs/documentation.md) - 架構設計與核心模組說明
-- GameCore
-	- Game
-	- Model
-	- View
-	- Controller
-	- Event
-- Network
-	- TCP 連線
-	- UDP 連線
-- Utils 
-	- Random Number Generator
-	- Time
-	- Uuid
-- Environment
+| 模組         | 子模組           | 類別/元件              |
+|--------------|------------------|-------------------------|
+| **Core**     | Game             | Game, Model, View, Controller |
+|              | Event            | Event                   |
+|              | Party            | Party                   |
+| **Network**  | TCP Connection   | TCPServer, TCPClient    |
+|              | UDP Connection   | UDPServer, UDPClient    |
+| **Utils**    | RNG              | 隨機數生成              |
+|              | Time             | 時間工具                |
+|              | Uuid             | UUID 工具               |
+| **Environment** | -             | 環境變數 / 設定         |
+
 
 # 📜 Changelog - 每次更新紀錄與版本變更
 # 🧪 `tests/` - 單元測試與使用範例（待補充）
