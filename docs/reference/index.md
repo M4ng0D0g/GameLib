@@ -1,23 +1,32 @@
-- Core
+# Reference
+- 本區皆屬於命名空間
+```cpp
+using namespace GameLib;
+```
+---
+### `GameLib::Core`
+- `Game`
 	- Game
-		- Game
-		- Model
-		- View
-		- Controller
+	- Model
+	- View
+	- Controller
+- `Event`
 	- Event
-		- Event
+- `Party`
 	- Party
-		- Party
-- Network
-	- TCP Connection
-		- TCPServer
-		- TCPClient
-	- UDP Connection
-		- UDPServer
-		- UDPClient
-	
-- Utils 
-	- RNG
-	- Time
-	- Uuid
-- Environment
+---
+### `GameLib::Network`
+- TCP Connection
+	- TCPServer
+	- TCPClient
+- UDP Connection
+	- UDPServer
+	- UDPClient
+
+---
+### `GameLib::Utils` 
+- `RNG`
+- `Time`
+- `Uuid`
+---
+### `GameLib::Env`

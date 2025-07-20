@@ -38,6 +38,23 @@ namespace GameLib::Core {
 		void resetLatest();
 
 	};
+
+	// class ConsoleViewAdapter : public View {
+	// public:
+	// 	void show() override {
+	// 		ConsoleWindow::instance().enable();
+	// 	}
+
+	// 	void hide() override {
+	// 		ConsoleWindow::instance().disable();
+	// 	}
+
+	// 	void update(const std::string& msg) override {
+	// 		if (ConsoleWindow::instance().isVisible()) {
+	// 			ConsoleWindow::instance().log(msg);
+	// 		}
+	// 	}
+	// };
 }
 
 

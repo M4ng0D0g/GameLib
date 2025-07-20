@@ -2,9 +2,8 @@
 
 ```
 C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒與 Server/Client 模組。
-提供一套輕量、可擴充的基礎架構，讓 C++ 遊戲開發變得更簡單、更有組織，適合用於：
 ```
-
+提供一套輕量、可擴充的基礎架構，讓 C++ 遊戲開發變得更簡單、更有組織，適合用於：
 - 回合制或即時制遊戲原型開發
 - 學習設計模式（如 MVC、State Machine）
 - 終端機互動遊戲系統(提供輕量 ConsoleView 實作)
@@ -14,7 +13,7 @@ C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒�
 🚀 支援擴充性強、模組分離清晰，易於維護與多人協作！
 ```
 
-# 🛠️ Getting Started
+## 🛠️ Getting Started
 
 ```
 想要使用 GameLib 開發，可以依照以下步驟：
@@ -25,8 +24,11 @@ C++ 遊戲框架，支援 MVC 架構、狀態機、Console View、多執行緒�
 #### 4. [使用基礎終端機顯示](docs/getting_started/step4.md)
 #### 5. [使用 TCP/UDP 網路連線](docs/getting_started/step5.md)
 
-# 🧱 Documentation
+## 🧱 Documentation
 
+```
+
+```
 #### 📖 [Reference](docs/reference/index.md) - 架構設計與核心模組說明
 #### 📜 [Changelog](CHANGELOG.md) - 每次更新紀錄與版本變更
 #### 🧪 [Tests]() - 單元測試與使用範例（待補充）
