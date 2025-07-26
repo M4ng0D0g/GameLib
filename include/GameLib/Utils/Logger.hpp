@@ -5,7 +5,7 @@
 #include <fstream>
 #include <memory>
 
-namespace GameLib::Utils::Logger {
+namespace GameLib::Utils {
 
 	enum class Level {
 		Info,

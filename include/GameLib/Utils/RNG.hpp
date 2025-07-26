@@ -2,7 +2,7 @@
 
 #include <random>
 
-namespace GameLib::Utils::RNG {
+namespace GameLib::Utils {
 
 	struct RNG {
 		std::mt19937 rng;

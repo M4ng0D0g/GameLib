@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 
-namespace GameLib::Utils::Ansi {
+namespace GameLib::Utils {
 
 	enum class AnsiMode {
 		Basic,

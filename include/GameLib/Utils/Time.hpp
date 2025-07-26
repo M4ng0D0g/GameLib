@@ -4,9 +4,9 @@
 
 // ***************************************************************************/
 
-namespace GameLib::Utils::Time {
+namespace GameLib::Utils {
 
-	using Time = uint64_t;
+	using time = uint64_t;
 	using SystemClock = std::chrono::system_clock;
 	using StedayClock = std::chrono::steady_clock;
 
@@ -14,8 +14,8 @@ namespace GameLib::Utils::Time {
 	// 可讀性： 可以對應到實際的日期與時間（例如 2025-05-08 13:00）。
 	// 可調性： 可能會被手動或透過 NTP 校正（例如使用者修改系統時間）。
 	// 用途： 儲存事件發生的絕對時間點（如日誌紀錄、排程）。
-	inline Time systemNowMs() noexcept {
-		return static_cast<Time>(
+	inline time systemNowMs() noexcept {
+		return static_cast<time>(
 			std::chrono::duration_cast<std::chrono::milliseconds>(
 				SystemClock::now().time_since_epoch()).count()
 			);
@@ -25,8 +25,8 @@ namespace GameLib::Utils::Time {
 	// 可讀性： 無法對應到實際的日期時間，僅是時間間隔。
 	// 穩定性： 不會 被系統時間變更影響，適合計時。
 	// 用途： 計算經過時間（如延遲、超時、執行時間測量）。
-	inline Time steadyNowMs() noexcept {
-		return static_cast<Time>(
+	inline time steadyNowMs() noexcept {
+		return static_cast<time>(
 			std::chrono::duration_cast<std::chrono::milliseconds>(
 				StedayClock::now().time_since_epoch()).count()
 			);

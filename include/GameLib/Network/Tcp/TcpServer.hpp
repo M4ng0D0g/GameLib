@@ -1,6 +1,8 @@
 #pragma once
 
+#include "SessionManager.hpp"
 #include <boost/asio.hpp>
+#include <atomic>
 #include <thread>
 #include <vector>
 #include <memory>
@@ -21,6 +23,8 @@ namespace GameLib::Network {
 		boost::asio::io_context ioContext_;
 		boost::asio::ip::tcp::acceptor acceptor_;
 		std::thread ioThread_;
-		bool running_ = false;
+		std::atomic<bool> running_ = false;
+
+		SessionManager::U_Ptr sessionManager_;
 	};
 }
