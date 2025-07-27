@@ -7,8 +7,6 @@
 namespace GameLib::Utils {
 
 	using time = uint64_t;
-	using SystemClock = std::chrono::system_clock;
-	using StedayClock = std::chrono::steady_clock;
 
 	// 時間來源： 系統時間（wall-clock time）。
 	// 可讀性： 可以對應到實際的日期與時間（例如 2025-05-08 13:00）。
@@ -17,7 +15,7 @@ namespace GameLib::Utils {
 	inline time systemNowMs() noexcept {
 		return static_cast<time>(
 			std::chrono::duration_cast<std::chrono::milliseconds>(
-				SystemClock::now().time_since_epoch()).count()
+				std::chrono::system_clock::now().time_since_epoch()).count()
 			);
 	}
 
@@ -28,7 +26,7 @@ namespace GameLib::Utils {
 	inline time steadyNowMs() noexcept {
 		return static_cast<time>(
 			std::chrono::duration_cast<std::chrono::milliseconds>(
-				StedayClock::now().time_since_epoch()).count()
+				std::chrono::steady_clock::now().time_since_epoch()).count()
 			);
 	}
 }

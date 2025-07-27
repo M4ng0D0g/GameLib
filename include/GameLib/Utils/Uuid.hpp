@@ -44,7 +44,7 @@ namespace GameLib::Utils {
 	// 	return oss.str();
 	// }
 
-	inline uuid generateBoost() {
+	inline uuid generateUuid() {
 		static boost::uuids::random_generator generator;
 		return to_string(generator());
 	}

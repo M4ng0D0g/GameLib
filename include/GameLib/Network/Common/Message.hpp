@@ -8,10 +8,9 @@
 
 // };
 
-namespace GameLib::Network {
+namespace GameLib::Network::Common {
 
-	class Message {
-	public:
+	struct Message {
 		using S_Ptr = std::shared_ptr<Message>;
 
 		// 訊息類型ID，可以用 enum class

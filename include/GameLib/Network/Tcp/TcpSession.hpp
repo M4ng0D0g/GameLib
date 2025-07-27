@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Message.hpp"
-#include "gamelib/utils/Uuid.hpp"
-#include "gamelib/utils/Time.hpp"
+#include "GameLib/Network/Base/Session.hpp"
+#include "GameLib/Network/Common/Message.hpp"
 #include <boost/asio.hpp>
 #include <functional>
 #include <iostream>
@@ -12,16 +11,20 @@
 
 using namespace GameLib::Utils;
 
-namespace GameLib::Network {
+namespace GameLib::Network::Tcp {
 
-	class Session : public std::enable_shared_from_this<Session> {
+	class TcpSession : public Base::Session {
+	public:
+		using S_Ptr = std::shared_ptr<TcpSession>;
+		static S_Ptr create(const Utils::uuid& id, std::shared_ptr<boost::asio::ip::tcp::socket> socket) {
+			return S_Ptr(new TcpSession(id, std::move(socket)));
+		}
+		
 	private:
-		static Uuid::uuid curSessionId_;
+		explicit Session(Utils::uuid id, std::shared_ptr<boost::asio::ip::tcp::socket> socket)
+			: sessionId_(std::move(id)), socket_(std::move(socket)), buffer_(1024) {}
 
-		explicit Session(Uuid::uuid uuid, std::shared_ptr<boost::asio::ip::tcp::socket> socket)
-			: sessionId_(std::move(uuid)), socket_(std::move(socket)), buffer_(1024) {}
-
-		Uuid::uuid sessionId_;
+		
 		// ENetPeer* peer_;
 		// bool connected_;
 		// Time::Time offlineTime_; 
@@ -54,11 +57,6 @@ namespace GameLib::Network {
 		}
 
 	public:
-		using S_Ptr = std::shared_ptr<Session>;
-		static S_Ptr create(const Uuid::uuid& uuid, std::shared_ptr<boost::asio::ip::tcp::socket> socket) {
-			return S_Ptr(new Session(uuid, std::move(socket)));
-		}
-
 		void start() {
 			doRead();
 		}
