@@ -12,36 +12,40 @@
 
 namespace GameLib::Network::Base {
 
-	class Session : public Interface::ISession, public std::enable_shared_from_this<Session> {
+	class Session : public Interface::ISession {
+	public:
+		virtual ~Session() noexcept = default;
+
+		const Utils::uuid& id() const {
+			return sessionId_;
+		}
+		bool isConnected() const {
+			return connected_.load();
+		}
+		const std::chrono::steady_clock::time_point& lastActive() const {
+			return lastActive_;
+		}
+
 	protected:
-		void close();
-		void doRead();
-		void doWrite();
+		explicit Session(Utils::uuid id = Utils::generateUuid()) : sessionId_(id) {}
+		// explicit Session(SessionManager::S_Ptr manager)
+		// 	: manager_(std::move(manager)), sessionId_(Utils::generateUuid()), connected_(false) {}
 
 		Utils::uuid sessionId_;
+		std::atomic<bool> connected_{false};
+		std::chrono::steady_clock::time_point lastActive_;
+
 		// boost::asio::ip::tcp::socket socket_;
 		std::vector<std::byte> rxBuffer_;
 		std::deque<std::vector<std::byte>> txQueue_;
-		std::atomic<bool> connected_{false};
+		
 
 		boost::asio::strand<boost::asio::io_context::executor_type> strand_;
-		SessionManager::S_Ptr manager_;
-		Utils::StedayClock::time_point lastActive_;
+		// SessionManager::S_Ptr manager_;
+		
+		virtual void doRead() = 0;
+		virtual void doWrite() = 0;
 
-	public:
-		using S_Ptr = std::shared_ptr<Session>;
-
-		explicit Session(SessionManager::S_Ptr manager)
-			: manager_(std::move(manager)), sessionId_(Utils::generateUuid()), connected_(false) {}
-
-		virtual void start() = 0;
-		virtual void send(const Common::Message& msg) = 0;
-
-		const std::string& id() const noexcept {
-			return sessionId_;
-		}
-		bool isConnected() const noexcept {
-			return connected_.load();
-		}
+	
 	};
 }

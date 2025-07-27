@@ -2,7 +2,6 @@
 
 #include "GameLib/Network/Base/Session.hpp"
 #include "GameLib/Network/Common/Message.hpp"
-#include <boost/asio.hpp>
 #include <functional>
 #include <iostream>
 #include <memory>
@@ -13,16 +12,48 @@ using namespace GameLib::Utils;
 
 namespace GameLib::Network::Tcp {
 
-	class TcpSession : public Base::Session {
+	class TcpSession : public Base::Session, public std::enable_shared_from_this<TcpSession> {
 	public:
-		using S_Ptr = std::shared_ptr<TcpSession>;
-		static S_Ptr create(const Utils::uuid& id, std::shared_ptr<boost::asio::ip::tcp::socket> socket) {
-			return S_Ptr(new TcpSession(id, std::move(socket)));
+		using SPtr = std::shared_ptr<TcpSession>;
+
+		// --------------------------------------------------------------------------------
+
+		static SPtr create(const Utils::uuid& id, std::shared_ptr<boost::asio::ip::tcp::socket> socket) {
+			return SPtr(new TcpSession(id, std::move(socket)));
 		}
-		
+
+		~TcpSession() noexcept override = default;
+
+		// --------------------------------------------------------------------------------
+
+		void start() override {
+			doRead();
+		}
+		void resume(std::shared_ptr<boost::asio::ip::tcp::socket> socket) {
+			socket_ = socket;
+		}
+		void close() override {
+
+		}
+		void send(const Common::Message& msg) override {
+
+		}
+		// std::string getRemoteIP() const;
+		// uint16_t getRemotePort() const;
+
+		// int getSessionId() const;
+		// void onMessageRecived(Message::S_Ptr msg);
+		// void sendMessage(Message::S_Ptr msg);
+		// void setDisconnectHandler(std::function<void(int)> handler);
+
+		// void online() { isOnline_ = true; }
+		// void offline() { isOnline_ = false; offlineTime_ = Time::steadyNowMs(); }
+		// bool isOnline() { return isOnline_; }
+		// Time::time getOfflineTime() { return offlineTime_; }
+
 	private:
-		explicit Session(Utils::uuid id, std::shared_ptr<boost::asio::ip::tcp::socket> socket)
-			: sessionId_(std::move(id)), socket_(std::move(socket)), buffer_(1024) {}
+		explicit TcpSession(Utils::uuid id, std::shared_ptr<boost::asio::ip::tcp::socket> socket)
+			: Session(std::move(id)), socket_(std::move(socket)), buffer_(1024) {}
 
 		
 		// ENetPeer* peer_;
@@ -45,7 +76,7 @@ namespace GameLib::Network::Tcp {
 		// std::vector<uint8_t> recvBuffer;
 		// std::deque<std::vector<uint8_t>> sendQueue;
 
-		void doRead() {
+		void doRead() override {
 			auto self = shared_from_this();
 			socket_->async_read_some(boost::asio::buffer(buffer_), [self](boost::system::error_code ec, std::size_t length) {
 				if (!ec) {
@@ -55,32 +86,9 @@ namespace GameLib::Network::Tcp {
 				}
 			});
 		}
-
-	public:
-		void start() {
-			doRead();
+		void doWrite() override {
+			
 		}
-
-		// void send(const Message& msg);
-		// void close();
-
-		const Uuid::uuid& getId() const {
-			return sessionId_;
-		}
-		// std::string getRemoteIP() const;
-		// uint16_t getRemotePort() const;
-
-		// int getSessionId() const;
-		// void onMessageRecived(Message::S_Ptr msg);
-		// void sendMessage(Message::S_Ptr msg);
-		// void setDisconnectHandler(std::function<void(int)> handler);
-		// void start();
-		// void stop();
-
-		// void online() { isOnline_ = true; }
-		// void offline() { isOnline_ = false; offlineTime_ = Time::steadyNowMs(); }
-		// bool isOnline() { return isOnline_; }
-		// Time::time getOfflineTime() { return offlineTime_; }
 	};
 
 	/*

@@ -2,63 +2,25 @@
 
 #include "GameLib/Network/Base/Server.hpp"
 #include "TcpSessionManager.hpp"
-#include <boost/asio.hpp>
 #include <vector>
 #include <memory>
 
 namespace GameLib::Network::Tcp {
 
 	class TcpServer : public Base::Server {
-	private:
-		boost::asio::ip::tcp::acceptor acceptor_;
-		SessionManager::U_Ptr sessionManager_;
-
-		void doAccept() {
-			auto socket = std::make_shared<boost::asio::ip::tcp::socket>(ioContext_);
-			acceptor_.async_accept(*socket, [this, socket](boost::system::error_code ec) {
-				if (!ec) {
-					std::cout << "Client connected from: " << socket->remote_endpoint() << std::endl;
-					
-					// Step 1: 接收第一筆資料（UUID）
-					auto buffer = std::make_shared<std::vector<char>>(64); // 預期只會送一段 uuid
-					socket->async_read_some(boost::asio::buffer(*buffer), 
-						[this, socket, buffer](boost::system::error_code ec2, std::size_t length) {
-							if (!ec2) {
-								std::string uuid(buffer->begin(), buffer->begin() + length);
-								trim(uuid); // 去掉換行符等（你可自己寫 trim）
-
-								auto existing = sessionManager_->findById(uuid);
-								if (existing) {
-									std::cout << "Resuming session " << uuid << "\n";
-									existing->resume(std::move(socket));
-									existing->start();
-								} else {
-									auto session = sessionManager_->createSession(socket);
-									std::cout << "Created new session: " << session->getId() << "\n";
-									session->start();
-
-									// TODO: 回傳新的 UUID 給 client（你可自定格式）
-								}
-							} else {
-								std::cerr << "Error reading UUID from client: " << ec2.message() << std::endl;
-							}
-							/*
-							std::string message = "UUID:" + session->getId() + "\n";
-							boost::asio::async_write(*socket, boost::asio::buffer(message), [](auto, auto){});
-							*/
-						});
-					}
-				doAccept(); // Accept next
-			});
-		}
-
 	public:
+		using SPtr = std::shared_ptr<TcpServer>;
+
+		// --------------------------------------------------------------------------------
+
 		TcpServer(unsigned short port)
 			: acceptor_(ioContext_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)) {}
 
 		~TcpServer() {
 			stop();
 		}
+
+		// --------------------------------------------------------------------------------
 
 		void start() override {
 			running_ = true;
@@ -76,10 +38,71 @@ namespace GameLib::Network::Tcp {
 			}
 		}
 
+	private:
+		boost::asio::ip::tcp::acceptor acceptor_;
+		TcpSessionManager::SPtr sessionManager_;
+
+		void doAccept() {
+			using boost::asio::ip::tcp;
+
+			auto socket = std::make_shared<tcp::socket>(ioContext_);
+
+			acceptor_.async_accept(*socket, [this, socket](const boost::system::error_code& ec) {
+
+				boost::asio::post(acceptor_.get_executor(), [this]{ doAccept(); });
+				if (ec) return;
+
+				// try {
+				// 	std::cout << "Client connected from: " << socket->remote_endpoint() << "\n";
+				// } catch (...) {
+				// // 有些平台 remote_endpoint() 可能丟例外，避免中斷流程
+				// }
+				std::cout << "Client connected from: " << socket->remote_endpoint() << std::endl;
+
+				// Step 1: 接收第一筆資料（UUID）
+				auto buffer = std::make_shared<boost::asio::streambuf>();
+				boost::asio::async_read_until(*socket, *buffer, '\n',
+					[this, socket, buffer](const boost::system::error_code& ec2, std::size_t bytes) {
+						if (ec2) {
+							std::cerr << "Error reading UUID from client: " << ec2.message() << std::endl;
+							return;
+						}
+
+						std::istream is(buffer.get());
+						std::string uuid_line;
+						std::getline(is, uuid_line);
+						trim(uuid_line);
+
+						if (auto existing = sessionManager_->findTyped(uuid_line)) {
+							std::cout << "Resuming session " << uuid_line << "\n";
+							existing->resume(std::move(socket));
+							existing->start();
+						} else {
+							auto session = sessionManager_->createSession(socket);
+							std::cout << "Created new session: " << session->id() << "\n";
+							session->start();
+
+							// （可選）回傳新 UUID
+							// std::string msg = "UUID:" + session->getId() + "\n";
+							// boost::asio::async_write(*socket, boost::asio::buffer(msg), [](auto, auto){});
+						}
+						/*
+						std::string message = "UUID:" + session->getId() + "\n";
+						boost::asio::async_write(*socket, boost::asio::buffer(message), [](auto, auto){});
+						*/
+					});
+			});
+		}
+
+	
+
 	
 	};
 
 	inline void trim(std::string& s) {
 		s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
+		// auto not_sp = [](unsigned char ch){ return !std::isspace(ch); };
+		// s.erase(s.begin(), std::find_if(s.begin(), s.end(), not_sp));
+		// s.erase(std::find_if(s.rbegin(), s.rend(), not_sp).base(), s.end());
 	}
 }

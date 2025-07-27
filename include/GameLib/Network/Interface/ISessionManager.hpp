@@ -8,13 +8,14 @@ namespace GameLib::Network::Interface {
 	
 	class ISessionManager {
 	public:
-		virtual ~ISessionManager() = default;
+		virtual ~ISessionManager() noexcept = default;
 		
-		virtual void registerSession() = 0;
+		// virtual void createSession(std::shared_ptr<Base::Session> session) = 0;
+		// virtual void registerSession(const Utils::uuid& id, std::shared_ptr<Base::Session> session) = 0;
 		virtual void unregisterSession(const Utils::uuid& id) = 0;
-		virtual Base::Session::S_Ptr findById(const Utils::uuid& id) = 0;
+		virtual std::shared_ptr<Base::Session> find(const Utils::uuid& id) = 0;
 
-		virtual void tick(Utils::StedayClock::time_point now) = 0;
+		virtual void tick(std::chrono::steady_clock::time_point now) = 0;
 	};
 
 }

@@ -8,6 +8,9 @@
 namespace GameLib::Network::Base {
 
 	class Client : public Interface::IClient {
+	public:
+		virtual ~Client() = default;
+
 	protected:
 		boost::asio::io_context ioContext_;
 		std::thread ioThread_;

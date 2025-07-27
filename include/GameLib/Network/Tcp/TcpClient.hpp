@@ -2,25 +2,25 @@
 
 #include "GameLib/Network/Base/Client.hpp"
 #include "GameLib/Utils/Logger.hpp"
-#include <boost/asio.hpp>
 
 namespace GameLib::Network::Tcp {
 
 	using namespace Utils;
 
 	class TcpClient : public Base::Client {
-	private:
-		boost::asio::ip::tcp::socket socket_;
-		std::string host_;
-		unsigned short port_;
-
 	public:
+		using SPtr = std::shared_ptr<TcpClient>;
+
+		// --------------------------------------------------------------------------------
+
 		TcpClient(const std::string& host, unsigned short port)
 			: socket_(ioContext_), host_(host), port_(port) {}
 
 		~TcpClient() {
 			disconnect();
 		}
+
+		// --------------------------------------------------------------------------------
 
 		void connect() {
 			Logger& logger = Logger::instance();
@@ -66,7 +66,12 @@ namespace GameLib::Network::Tcp {
 
 			boost::asio::write(socket_, boost::asio::buffer(message));
 		}
-		
+
+	private:
+		boost::asio::ip::tcp::socket socket_;
+		std::string host_;
+		unsigned short port_;
+
 
 	};
 }

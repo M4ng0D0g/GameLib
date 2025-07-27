@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameLib/network/Base/SessionManager.hpp"
+#include "GameLib/Network/Base/SessionManger.hpp"
 #include "TcpSession.hpp"
 #include <atomic>
 #include <memory>
@@ -12,12 +12,24 @@ using namespace GameLib::Utils;
 
 namespace GameLib::Network::Tcp {
 
-	class TcpSessionManager : public Base::SessionManager<TcpSession::S_Ptr> {
+	class TcpSessionManager : public Base::SessionManager<TcpSession> {
 	public:
-		using S_Ptr = std::shared_ptr<TcpSessionManager>;
+		using SPtr = std::shared_ptr<TcpSessionManager>;
 
-		void tick(Utils::StedayClock::time_point now) override {
+		// --------------------------------------------------------------------------------
+
+		TcpSession::SPtr createSession(std::shared_ptr<boost::asio::ip::tcp::socket> socket) {
+			std::string uuid = Utils::generateUuid();
+			auto session = TcpSession::create(uuid, std::move(socket));
+			sessions_[uuid] = session;
+			return session;
+		}
+
+		// --------------------------------------------------------------------------------
+
+		void tick(std::chrono::steady_clock::time_point now) override {
 			const auto timeout = std::chrono::minutes(5);
+
 			for (auto it = sessions_.begin(); it != sessions_.end();) {
 				if (now - it->second->lastActive() > timeout) {
 					it->second->close();
@@ -30,22 +42,6 @@ namespace GameLib::Network::Tcp {
 
 	};
 }
-
-// Session::S_Ptr SessionManager::findById(const Uuid::uuid& uuid) {
-// 		auto it = sessions_.find(uuid);
-// 		return it != sessions_.end() ? it->second : nullptr;
-// 	}
-
-// 	Session::S_Ptr SessionManager::createSession(std::shared_ptr<boost::asio::ip::tcp::socket> socket) {
-// 		std::string uuid = Uuid::generate();
-// 		auto session = Session::create(uuid, std::move(socket));
-// 		sessions_[uuid] = session;
-// 		return session;
-// 	}
-
-// 	void registerSession(const Uuid::uuid& uuid, Session::S_Ptr session) {
-// 		sessions_[uuid] = std::move(session);
-// 	}
 
 // Session::Token SessionManager::create(ClientSession::Token token, ENetPeer* peer) {
 // 	if(tokenSessions_.contains(token)) {
