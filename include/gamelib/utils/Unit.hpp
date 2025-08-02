@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <vector>
 
-namespace GameLib::Utils {
+namespace gamelib::utils {
 
 	using token = size_t;
 

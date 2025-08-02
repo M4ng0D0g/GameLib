@@ -11,7 +11,7 @@
 
 // ***************************************************************************/
 
-namespace GameLib::Utils {
+namespace gamelib::utils {
 
 	using uuid = std::string;
 

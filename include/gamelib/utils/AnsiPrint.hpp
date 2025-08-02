@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 
-namespace GameLib::Utils {
+namespace gamelib::utils {
 
 	enum class AnsiMode { BASIC, BRIGHT, COLOR256, RGB };
 	enum Color { BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, GRAY, NOCHANGE};

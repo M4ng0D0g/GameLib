@@ -29,6 +29,7 @@ namespace GameLib::Network::Tcp {
 				ioContext_.run();
 			});
 		}
+
 		void stop() override {
 			if (running_) {
 				ioContext_.stop();
@@ -46,18 +47,17 @@ namespace GameLib::Network::Tcp {
 			using boost::asio::ip::tcp;
 
 			auto socket = std::make_shared<tcp::socket>(ioContext_);
-
 			acceptor_.async_accept(*socket, [this, socket](const boost::system::error_code& ec) {
 
 				boost::asio::post(acceptor_.get_executor(), [this]{ doAccept(); });
 				if (ec) return;
 
-				// try {
-				// 	std::cout << "Client connected from: " << socket->remote_endpoint() << "\n";
-				// } catch (...) {
-				// // 有些平台 remote_endpoint() 可能丟例外，避免中斷流程
-				// }
-				std::cout << "Client connected from: " << socket->remote_endpoint() << std::endl;
+				try {
+					// 有些平台 remote_endpoint() 可能丟例外，避免中斷流程
+					std::cout << "Client connected from: " << socket->remote_endpoint() << std::endl;
+				} catch (std::exception e) {
+					std::cerr << e.what() << std::endl;
+				}
 
 				// Step 1: 接收第一筆資料（UUID）
 				auto buffer = std::make_shared<boost::asio::streambuf>();

@@ -4,7 +4,7 @@
 
 // ***************************************************************************/
 
-namespace GameLib::Utils {
+namespace gamelib::utils {
 
 	using time = uint64_t;
 

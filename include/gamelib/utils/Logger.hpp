@@ -9,7 +9,7 @@
 #include <mutex>
 #include <string>
 
-namespace GameLib::Utils {
+namespace gamelib::utils {
 
 	enum class Level { INFO, WARNING, ERROR, DEBUG };
 
