@@ -1,22 +1,19 @@
 #pragma once
 
-#include "GameLib/Network/Base/Session.hpp"
-#include "GameLib/Network/Common/Message.hpp"
+#include "gamelib/network/base/BaseSession.hpp"
+#include "gamelib/network/common/Message.hpp"
 #include <functional>
 #include <iostream>
 #include <memory>
 #include <mutex>
 #include <queue>
 
-using namespace GameLib::Utils;
+using namespace gamelib::utils;
 
-namespace GameLib::Network::Tcp {
+namespace gameLib::network::tcp {
 
-	class TcpSession : public Base::Session, public std::enable_shared_from_this<TcpSession> {
+	class TcpSession : public base::BaseSession, public std::enable_shared_from_this<TcpSession> {
 	public:
-		using SPtr = std::shared_ptr<TcpSession>;
-
-		// --------------------------------------------------------------------------------
 
 		static SPtr create(const Utils::uuid& id, std::shared_ptr<boost::asio::ip::tcp::socket> socket) {
 			return SPtr(new TcpSession(id, std::move(socket)));

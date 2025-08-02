@@ -2,7 +2,7 @@
 
 #include "gamelib/utils/Uuid.hpp"
 #include "gamelib/utils/Time.hpp"
-#include "BaseSessionManger.hpp"
+#include "gamelib/network/common/SessionManger.hpp"
 #include <boost/asio.hpp>
 #include <vector>
 #include <queue>

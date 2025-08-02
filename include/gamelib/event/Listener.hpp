@@ -5,7 +5,7 @@
 #include <memory>
 #include <type_traits>
 
-namespace GameLib::Core::Event {
+namespace gamelib::event {
 
 	class EventBus;
 	class Event;
@@ -15,13 +15,9 @@ namespace GameLib::Core::Event {
 		static_assert(std::is_base_of<Event, T>::value, "T 必須繼承自 Event");
 
 	public:
-		using U_Ptr = std::unique_ptr<Listener>;
-		using S_Ptr = std::shared_ptr<Listener>;
-		using W_Ptr = std::weak_ptr<Listener>;
-
 		virtual ~Listener() = default;
 
-		virtual bool onEvent(const std::shared_ptr<T>&) = 0;
+		virtual bool onEvent(std::shared_ptr<T> event) = 0;
 		virtual void autoRegister(EventBus&) {}
 	};
 }

@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace GameLib::Network::Interface {
+namespace gamelib::network::interface {
 
 	class IClient {
 	public:

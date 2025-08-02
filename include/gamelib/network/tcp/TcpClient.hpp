@@ -1,20 +1,19 @@
 #pragma once
 
-#include "GameLib/Network/Base/Client.hpp"
-#include "GameLib/Utils/Logger.hpp"
+#include "gamelib/network/base/BaseConnection.hpp"
+#include "gamelib/network/interface/IClient.hpp"
+#include "gamelib/utils/Logger.hpp"
+#include <atomic>
 
-namespace GameLib::Network::Tcp {
+using Logger = gamelib::utils::Logger;
 
-	using namespace Utils;
+namespace gamelib::network::tcp {
 
-	class TcpClient : public Base::Client {
+	class TcpClient : public interface::IClient, public base::BaseConnection {
 	public:
-		using SPtr = std::shared_ptr<TcpClient>;
-
-		// --------------------------------------------------------------------------------
 
 		TcpClient(const std::string& host, unsigned short port)
-			: socket_(ioContext_), host_(host), port_(port) {}
+			: socket_(ioContext_), host_(host), port_(port), BaseConnection(utils::generateUuid()) {}
 
 		~TcpClient() {
 			disconnect();
@@ -57,6 +56,8 @@ namespace GameLib::Network::Tcp {
 			connected_.store(false);
 		}
 
+		// --------------------------------------------------------------------------------
+
 		void send(const std::string& message) override {
 			Logger& logger = Logger::instance();
 			if (!connected_) {
@@ -71,6 +72,8 @@ namespace GameLib::Network::Tcp {
 		boost::asio::ip::tcp::socket socket_;
 		std::string host_;
 		unsigned short port_;
+
+		std::atomic<bool> connected_;
 
 
 	};

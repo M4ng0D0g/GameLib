@@ -7,34 +7,45 @@
 
 // ***************************************************************************/
 
-namespace GameLib::Core::Event {
+namespace gamelib::event {
 
-	// class BaseEvent : public std::enable_shared_from_this<BaseEvent> {
-	// public:
-	// 	using S_Ptr = std::shared_ptr<BaseEvent>;
-	// 	virtual ~BaseEvent() = default;
-	// };
-
-	// // 模板事件
-	// template <typename T>
-	// class Event : public BaseEvent {
-	// 	static_assert(std::is_base_of<BaseEvent, T>::value, "T 必須繼承自 BaseEvent");
-
-	// public:
-	// 	using S_Ptr = std::shared_ptr<T>;
-	// 	virtual ~Event() = default;
-
-	// 	S_Ptr castDerived() {
-	// 		return std::dynamic_pointer_cast<T>(this->shared_from_this());
-	// 	} 
-	// };
-
-	class Event {
+	class Event : public std::enable_shared_from_this<Event> {
 	public:
 		virtual ~Event() = default;
+
+		// --------------------------------------------------------------------------------
+
+		template <typename T>
+		std::shared_ptr<T> castDerived() {
+			auto casted = std::dynamic_pointer_cast<T>(this->shared_from_this());
+			if (!casted) {
+				// log warning
+				return nullptr;
+			}
+			else return casted;
+		} 
+
 	};
 	
 }
+
+// class BaseEvent : public std::enable_shared_from_this<BaseEvent> {
+// public:
+// 	using S_Ptr = std::shared_ptr<BaseEvent>;
+// 	virtual ~BaseEvent() = default;
+// };
+
+// // 模板事件
+// template <typename T>
+// class Event : public BaseEvent {
+// 	static_assert(std::is_base_of<BaseEvent, T>::value, "T 必須繼承自 BaseEvent");
+
+// public:
+// 	using S_Ptr = std::shared_ptr<T>;
+// 	virtual ~Event() = default;
+
+
+// };
 
 
 // template <typename Derived>

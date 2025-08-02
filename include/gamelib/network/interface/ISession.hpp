@@ -1,8 +1,9 @@
 #pragma once
 
-#include "GameLib/Network/Common/Message.hpp"
+#include "gamelib/network/common/Message.hpp"
+#include <chrono>
 
-namespace GameLib::Network::Interface {
+namespace gamelib::network::interface {
 	
 	class ISession {
 	public:
@@ -10,10 +11,10 @@ namespace GameLib::Network::Interface {
 
 		virtual void start() = 0;
 		virtual void close() = 0;
-		virtual void send(const Common::Message& msg) = 0;
+		virtual void send(const common::Message& msg) = 0;
 
 		// virtual const std::string& id() const = 0;
-		// virtual const std::string& lastActive
+		virtual const std::chrono::_V2::steady_clock::time_point lastActive() = 0;
 		// virtual bool isConnected() const = 0;
 
 	};

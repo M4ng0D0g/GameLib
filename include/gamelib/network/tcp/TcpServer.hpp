@@ -1,7 +1,8 @@
 #pragma once
 
-#include "GameLib/Network/Base/Server.hpp"
-#include "TcpSessionManager.hpp"
+#include "gamelib/network/base/BaseConnection.hpp"
+#include "gamelib/network/common/SessionManager.hpp"
+#include "gamelib/network/interface/IServer.hpp"
 #include <vector>
 #include <memory>
 
@@ -9,9 +10,6 @@ namespace GameLib::Network::Tcp {
 
 	class TcpServer : public Base::Server {
 	public:
-		using SPtr = std::shared_ptr<TcpServer>;
-
-		// --------------------------------------------------------------------------------
 
 		TcpServer(unsigned short port)
 			: acceptor_(ioContext_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)) {}

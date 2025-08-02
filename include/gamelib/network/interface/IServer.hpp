@@ -1,6 +1,6 @@
 #pragma once
 
-namespace GameLib::Network::Interface {
+namespace gamelib::network::interface {
 	
 	class IServer {
 	public:
