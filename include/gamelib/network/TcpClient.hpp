@@ -7,7 +7,7 @@
 
 using Logger = gamelib::utils::Logger;
 
-namespace gamelib::network::tcp {
+namespace gamelib::network {
 
 	class TcpClient : public interface::IClient, public base::BaseConnection {
 	public:

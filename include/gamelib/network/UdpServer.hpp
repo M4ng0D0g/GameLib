@@ -5,7 +5,7 @@
 #include <memory>
 #include <iostream>
 
-namespace GameLib::Network::Udp {
+namespace GameLib::Network {
 
 	class UdpServer : public Base::Server {
 	private:

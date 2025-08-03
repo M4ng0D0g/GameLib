@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>
 
-namespace GameLib::Network::Tcp {
+namespace GameLib::Network {
 
 	class TcpServer : public Base::Server {
 	public:

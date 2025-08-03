@@ -4,7 +4,7 @@
 #include <boost/asio.hpp>
 #include <iostream>
 
-namespace GameLib::Network::Udp {
+namespace GameLib::Network {
 
 	class UdpClient : public Base::Client {
 	private:
