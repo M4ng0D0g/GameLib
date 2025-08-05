@@ -1,18 +1,19 @@
 #pragma once
 
-#include "gamelib/network/base/BaseConnection.hpp"
-#include "gamelib/network/common/SessionManager.hpp"
-#include "gamelib/network/interface/IServer.hpp"
+#include "base/BaseConnection.hpp"
+#include "interface/IServer.hpp"
+#include <gamelib/Utils.hpp>
 #include <vector>
 #include <memory>
 
-namespace GameLib::Network {
+namespace gamelib::network {
 
-	class TcpServer : public Base::Server {
+	class TcpServer
+		: public interface::IServer, public base::BaseConnection {
 	public:
-
 		TcpServer(unsigned short port)
-			: acceptor_(ioContext_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)) {}
+			: acceptor_(ioContext_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
+			BaseConnection(utils::generateUuid()) {}
 
 		~TcpServer() {
 			stop();
@@ -20,12 +21,14 @@ namespace GameLib::Network {
 
 		// --------------------------------------------------------------------------------
 
-		void start() override {
+		bool start() override {
 			running_ = true;
 			doAccept();
 			ioThread_ = std::thread([this]() {
 				ioContext_.run();
 			});
+
+			return true;
 		}
 
 		void stop() override {
@@ -39,7 +42,6 @@ namespace GameLib::Network {
 
 	private:
 		boost::asio::ip::tcp::acceptor acceptor_;
-		TcpSessionManager::SPtr sessionManager_;
 
 		void doAccept() {
 			using boost::asio::ip::tcp;

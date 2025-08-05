@@ -3,10 +3,9 @@
 // #include "utils/Unit.h"
 #include <memory>
 
-namespace GameLib::Core::Game {
+namespace gamelib::game {
 
 	struct GameConfig {
-		using S_Ptr = std::shared_ptr<GameConfig>;
 		~GameConfig() = default;
 	};
 

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "gamelib/utils/Unit.hpp"
-
-namespace GameLib::Env {
+namespace gamelib::env {
 
 	// connect/server
 	static int SERVER_PORT;

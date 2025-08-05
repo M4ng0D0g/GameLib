@@ -21,7 +21,7 @@ namespace gamelib::network {
 
 		// --------------------------------------------------------------------------------
 
-		void connect() {
+		bool connect() {
 			Logger& logger = Logger::instance();
 			if (connected_) {
 				logger.error("Client has already connected.");

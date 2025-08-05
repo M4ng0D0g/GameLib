@@ -1,4 +1,3 @@
-#include "Network/Tcp/TcpClient.hpp"
-#include "Network/Tcp/TcpServer.hpp"
-#include "Network/Tcp/TcpSession.hpp"
-#include "Network/Tcp/TcpSessionManager.hpp"
+#include "network/TcpClient.hpp"
+#include "network/TcpServer.hpp"
+#include "network/TcpSession.hpp"

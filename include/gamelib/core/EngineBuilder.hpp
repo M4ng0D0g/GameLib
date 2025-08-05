@@ -6,7 +6,6 @@
 #include "LocalEngine.hpp"
 #include "gamelib/network/interface/IServer.hpp"
 #include "gamelib/network/interface/IClient.hpp"
-#include "gamelib/game/Game.hpp"
 #include <memory>
 
 namespace gamelib::core {
@@ -25,14 +24,13 @@ namespace gamelib::core {
 			return *this;
 		}
 
-		EngineBuilder& withParty() {
+		// EngineBuilder& withParty() {
+		// }
 
-		}
-
-		EngineBuilder& withGame(std::shared_ptr<game::Game> game) {
-			game_ = std::move(game);
-			return *this;
-		}
+		// EngineBuilder& withGame(std::shared_ptr<game::Game> game) {
+		// 	game_ = std::move(game);
+		// 	return *this;
+		// }
 
 		// --------------------------------------------------------------------------------
 

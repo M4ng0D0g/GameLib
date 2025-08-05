@@ -11,14 +11,23 @@
 
 using uuid = gamelib::utils::uuid;
 
+namespace gamelib::session {
+
+	using Token = uint32_t;
+	
+}
+
 namespace gamelib::session::base {
 
 	class BaseSession {
 	public:
 		virtual ~BaseSession() noexcept = default;
 
+		const Token& token() const {
+			return token_;
+		}
 		const uuid& id() const {
-			return sessionId_;
+			return id_;
 		}
 		bool isConnected() const {
 			return connected_.load();
@@ -28,11 +37,12 @@ namespace gamelib::session::base {
 		}
 
 	protected:
-		explicit BaseSession(uuid id = utils::generateUuid()) : sessionId_(id) {}
+		explicit BaseSession(Token token, uuid id = utils::generateUuid()) : token_(token), id_(id) {}
 		// explicit Session(SessionManager::S_Ptr manager)
 		// 	: manager_(std::move(manager)), sessionId_(Utils::generateUuid()), connected_(false) {}
 
-		uuid sessionId_;
+		const Token token_;
+		const uuid id_;
 		std::atomic<bool> connected_{false};
 		std::chrono::steady_clock::time_point lastActive_;
 
@@ -50,3 +60,33 @@ namespace gamelib::session::base {
 	
 	};
 }
+
+/*
+class ClientSession {
+public:
+	using Token = uint64_t;
+
+	using Ptr = std::shared_ptr<ClientSession>;
+	static Ptr create(Token token, ENetPeer* peer) {
+		return Ptr(new ClientSession(token, peer));
+	}
+
+private:
+	ClientSession(Token token, ENetPeer* peer) : token_(token), peer_(peer) {}
+
+	Token token_;
+	ENetPeer* peer_;
+	bool isOnline_;
+	Time::time offlineTime_; 
+
+public:
+	Token getToken() const noexcept { return token_; }
+	ENetPeer* getPeer() const { return peer_; }
+	void setPeer(ENetPeer* peer) { peer_ = peer; }
+
+	void online() { isOnline_ = true; }
+	void offline() { isOnline_ = false; offlineTime_ = Time::steadyNowMs(); }
+	bool isOnline() { return isOnline_; }
+	Time::time getOfflineTime() { return offlineTime_; }
+};
+*/

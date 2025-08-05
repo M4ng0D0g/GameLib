@@ -6,6 +6,9 @@
 
 namespace gamelib::core {
 
+	// 分成2種設計模式
+	// 1. 初始化時從Env獲取server host/port
+	// 2. 若無法獲取，透過用戶輸入獲取
 	class ClientEngine : public interface::IEngine {
 		friend class EngineBuilder;
 

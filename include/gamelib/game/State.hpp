@@ -3,16 +3,13 @@
 #include "Game.hpp"
 #include <memory>
 
-
-namespace GameLib::Core::Game {
+namespace gamelib::game {
 
 	class Game;
 
-	class GameState {
+	class State {
 	public:
-		using U_Ptr = std::unique_ptr<GameState>;
-
-		virtual ~GameState() = default;
+		virtual ~State() = default;
 
 		virtual void onEnter(Game& game) = 0;
 		virtual void onUpdate(Game& game) = 0;

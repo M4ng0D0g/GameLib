@@ -1,14 +1,14 @@
 #pragma once
 
 #include "GameConfig.hpp"
-#include "GameState.hpp"
+#include "State.hpp"
 #include <unordered_map>
 #include <memory>
 #include <atomic>
 #include <thread>
 #include <mutex>
 
-namespace GameLib::Core::Game {
+namespace gamelib::game {
 	
 	/*
 	1. 初始化時需要讀取 `GameLib::Env` 設定 `GAME_TPS`
@@ -33,7 +33,7 @@ namespace GameLib::Core::Game {
 		std::mutex stateMutex_;
 		
 		// 遊戲數值
-		GameState::U_Ptr currentState_;
+		std::unique_ptr<State> coreStateCur_;
 		uint64_t totalTicks_;
 		
 		// --------------------------------------------------------------------------------
@@ -50,14 +50,14 @@ namespace GameLib::Core::Game {
 
 		// --------------------------------------------------------------------------------
 		// State Machine for Step-Based
-		void setState(GameState::U_Ptr);
+		void setState(std::unique_ptr<State>);
 
 		// 可能要做 update(action)
 		void updateState();
 
 		// --------------------------------------------------------------------------------
 		// 初始化遊戲 (GameConfig 可用於繼承 + 指標轉型)
-		virtual void setup(const GameConfig::S_Ptr) = 0;
+		virtual void setup(std::unique_ptr<State>) = 0;
 
 		// 檢查並啟動遊戲
 		// 可以自行實作 start() 相關的開始方法

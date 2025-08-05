@@ -2,7 +2,6 @@
 
 #include "base/BaseSession.hpp"
 #include "interface/ISession.hpp"
-
 #include <functional>
 #include <iostream>
 #include <memory>
@@ -16,13 +15,17 @@ namespace gamelib::session {
 	class TcpPlayerSession :
 		public base::BaseSession,
 		public interface::ISession,
-		public std::enable_shared_from_this<TcpPlayerSession> {
+		public std::enable_shared_from_this<TcpPlayerSession>
+		{
 	public:
-
+	
 		static std::shared_ptr<TcpPlayerSession> create(
 			const uuid& id, std::shared_ptr<boost::asio::ip::tcp::socket> socket
 		) {
-			return std::shared_ptr<TcpPlayerSession>(new TcpPlayerSession(id, std::move(socket)));
+			static Token curToken = 0;
+			return std::shared_ptr<TcpPlayerSession>(
+				new TcpPlayerSession(++curToken, id, std::move(socket))
+			);
 		}
 
 		~TcpPlayerSession() noexcept override = default;
@@ -41,6 +44,10 @@ namespace gamelib::session {
 		void send(const network::Message& msg) override {
 
 		}
+
+		const std::chrono::_V2::steady_clock::time_point lastActive() override {
+
+		}
 		// std::string getRemoteIP() const;
 		// uint16_t getRemotePort() const;
 
@@ -55,8 +62,11 @@ namespace gamelib::session {
 		// Time::time getOfflineTime() { return offlineTime_; }
 
 	private:
-		explicit TcpPlayerSession(const uuid& id, std::shared_ptr<boost::asio::ip::tcp::socket> socket)
-			: BaseSession(id), socket_(std::move(socket)), buffer_(1024) {}
+		explicit TcpPlayerSession(
+			Token token,
+			const uuid& id,
+			std::shared_ptr<boost::asio::ip::tcp::socket> socket
+		) : BaseSession(token, id), socket_(std::move(socket)), buffer_(1024) {}
 
 		
 		// ENetPeer* peer_;
