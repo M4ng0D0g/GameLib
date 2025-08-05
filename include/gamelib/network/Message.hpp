@@ -8,7 +8,7 @@
 
 // };
 
-namespace gamelib::network::common {
+namespace gamelib::network {
 
 	struct Message {
 		using S_Ptr = std::shared_ptr<Message>;

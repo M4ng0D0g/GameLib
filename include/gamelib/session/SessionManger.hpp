@@ -1,6 +1,6 @@
 #pragma once
 
-#include "gamelib/network/interface/ISession.hpp"
+#include "interface/ISession.hpp"
 #include "gamelib/utils/Uuid.hpp"
 #include "gamelib/utils/Time.hpp"
 #include <atomic>
@@ -8,9 +8,8 @@
 #include <unordered_map>
 
 using uuid = gamelib::utils::uuid;
-using ISession = gamelib::network::interface::ISession;
 
-namespace gameLib::network::base {
+namespace gamelib::session {
 
 	class SessionManager {
 	public:
@@ -25,7 +24,7 @@ namespace gameLib::network::base {
 		// 	return session;
 		// }
 
-		void registerSession(const uuid& id, std::shared_ptr<ISession> session) {
+		void registerSession(const uuid& id, std::shared_ptr<interface::ISession> session) {
 			sessions_[id] = std::move(session);
 		}
 		
@@ -35,7 +34,7 @@ namespace gameLib::network::base {
 
 		// --------------------------------------------------------------------------------
 
-		std::shared_ptr<ISession> find(const uuid& id) {
+		std::shared_ptr<interface::ISession> find(const uuid& id) {
 			auto it = sessions_.find(id);
 			return it != sessions_.end() ? it->second : nullptr;
 		}
@@ -103,7 +102,7 @@ namespace gameLib::network::base {
 		// std::atomic<Session::Token> nextToken_{1};
 
 		// 注意：需要為 Utils::uuid 提供 hash 與 ==，否則 unordered_map 用不了
-		std::unordered_map<uuid, std::shared_ptr<ISession>> sessions_;
+		std::unordered_map<uuid, std::shared_ptr<interface::ISession>> sessions_;
 		// std::unordered_map<ENetPeer*, Session::Ptr> peerSessions_;
 		
 	};

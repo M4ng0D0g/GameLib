@@ -27,6 +27,7 @@ namespace gamelib::core {
 		ClientEngine() {}
 
 		std::shared_ptr<network::interface::IClient> client_;
+		// graphics
 
 	};
 }

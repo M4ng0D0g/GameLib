@@ -11,18 +11,8 @@
 
 namespace gamelib::core {
 
-	enum class EngineType { Client, Local, Server }
-
 	class EngineBuilder {
 	public:
-
-		EngineBuilder& setType(EngineType type) {
-			type_ = type;
-			return *this;
-		}
-
-		// --------------------------------------------------------------------------------
-
 		EngineBuilder& withNetwork(std::shared_ptr<network::interface::IServer> server) {
 			server_ = std::move(server);
 			client_ = nullptr;
@@ -47,16 +37,21 @@ namespace gamelib::core {
 		// --------------------------------------------------------------------------------
 
 		std::shared_ptr<interface::IEngine> build() {
-			switch (type_) {
-				case EngineType::Local:
-					return std::shared_ptr<interface::IEngine>(new LocalEngine());
+			std::shared_ptr<interface::IEngine> engine = nullptr;
 
-				case EngineType::Server:
-					return std::shared_ptr<interface::IEngine>(new ServerEngine());
-
-				case EngineType::Client:
-					return std::shared_ptr<interface::IEngine>(new ClientEngine());
+			if (server_ != nullptr) {
+				engine = std::shared_ptr<interface::IEngine>(new ServerEngine());
 			}
+			else if (client_ != nullptr) {
+				engine = std::shared_ptr<interface::IEngine>(new ClientEngine());
+
+			}
+			else {
+				engine = std::shared_ptr<interface::IEngine>(new LocalEngine());
+
+			}
+
+			return engine;
 		}
 		
 	private:
@@ -69,7 +64,6 @@ namespace gamelib::core {
 			return inst;
 		}
 
-		EngineType type_;
 		std::shared_ptr<network::interface::IServer> server_{nullptr};
 		std::shared_ptr<network::interface::IClient> client_{nullptr};
 	};

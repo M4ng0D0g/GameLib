@@ -15,7 +15,7 @@ namespace gamelib::core {
 		}
 
 		void run() override {
-
+			
 		}
 
 		void shutdown() override {
@@ -25,6 +25,8 @@ namespace gamelib::core {
 	private:
 		LocalEngine() {}
 
+		// party or game
+		// graphics
 
 	};
 }

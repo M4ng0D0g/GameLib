@@ -1,7 +1,8 @@
 #pragma once
 
-#include "gamelib/network/base/BaseSession.hpp"
-#include "gamelib/network/common/Message.hpp"
+#include "base/BaseSession.hpp"
+#include "interface/ISession.hpp"
+
 #include <functional>
 #include <iostream>
 #include <memory>
@@ -10,16 +11,21 @@
 
 using namespace gamelib::utils;
 
-namespace gameLib::network::tcp {
+namespace gamelib::session {
 
-	class TcpSession : public base::BaseSession, public std::enable_shared_from_this<TcpSession> {
+	class TcpPlayerSession :
+		public base::BaseSession,
+		public interface::ISession,
+		public std::enable_shared_from_this<TcpPlayerSession> {
 	public:
 
-		static SPtr create(const Utils::uuid& id, std::shared_ptr<boost::asio::ip::tcp::socket> socket) {
-			return SPtr(new TcpSession(id, std::move(socket)));
+		static std::shared_ptr<TcpPlayerSession> create(
+			const uuid& id, std::shared_ptr<boost::asio::ip::tcp::socket> socket
+		) {
+			return std::shared_ptr<TcpPlayerSession>(new TcpPlayerSession(id, std::move(socket)));
 		}
 
-		~TcpSession() noexcept override = default;
+		~TcpPlayerSession() noexcept override = default;
 
 		// --------------------------------------------------------------------------------
 
@@ -32,7 +38,7 @@ namespace gameLib::network::tcp {
 		void close() override {
 
 		}
-		void send(const Common::Message& msg) override {
+		void send(const network::Message& msg) override {
 
 		}
 		// std::string getRemoteIP() const;
@@ -49,8 +55,8 @@ namespace gameLib::network::tcp {
 		// Time::time getOfflineTime() { return offlineTime_; }
 
 	private:
-		explicit TcpSession(Utils::uuid id, std::shared_ptr<boost::asio::ip::tcp::socket> socket)
-			: Session(std::move(id)), socket_(std::move(socket)), buffer_(1024) {}
+		explicit TcpPlayerSession(const uuid& id, std::shared_ptr<boost::asio::ip::tcp::socket> socket)
+			: BaseSession(id), socket_(std::move(socket)), buffer_(1024) {}
 
 		
 		// ENetPeer* peer_;

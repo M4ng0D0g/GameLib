@@ -2,7 +2,7 @@
 
 #include "gamelib/utils/Uuid.hpp"
 #include "gamelib/utils/Time.hpp"
-#include "gamelib/network/common/SessionManger.hpp"
+#include "gamelib/session/SessionManger.hpp"
 #include <boost/asio.hpp>
 #include <vector>
 #include <queue>
@@ -11,7 +11,7 @@
 
 using uuid = gamelib::utils::uuid;
 
-namespace gamelib::network::base {
+namespace gamelib::session::base {
 
 	class BaseSession {
 	public:
