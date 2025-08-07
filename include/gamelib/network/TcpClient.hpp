@@ -1,6 +1,6 @@
 #pragma once
 
-#include "gamelib/network/base/BaseConnection.hpp"
+#include "gamelib/network/base/ConnectionBase.hpp"
 #include "gamelib/network/interface/IClient.hpp"
 #include "gamelib/utils/Logger.hpp"
 #include <atomic>
@@ -9,11 +9,11 @@ using Logger = gamelib::utils::Logger;
 
 namespace gamelib::network {
 
-	class TcpClient : public interface::IClient, public base::BaseConnection {
+	class TcpClient : public interface::IClient, public base::ConnectionBase {
 	public:
 
 		TcpClient(const std::string& host, unsigned short port)
-			: socket_(ioContext_), host_(host), port_(port), BaseConnection(utils::generateUuid()) {}
+			: socket_(ioContext_), host_(host), port_(port), ConnectionBase(utils::generateUuid()) {}
 
 		~TcpClient() {
 			disconnect();

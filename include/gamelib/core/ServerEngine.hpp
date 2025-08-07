@@ -1,25 +1,28 @@
 #pragma once
 
+#include "base/EngineBase.hpp"
 #include "interface/IEngine.hpp"
 #include "gamelib/network/interface/IServer.hpp"
 #include "gamelib/session/SessionManger.hpp"
 #include <memory>
 #include <gamelib/Event.hpp>
-#include <gamelib/Utils.hpp>
+
 #include <gamelib/Party.hpp>
 
 namespace gamelib::core {
 
-	class ServerEngine : public interface::IEngine {
-		friend class EngineBuilder;
-
+	class ServerEngine : public interface::IEngine, public base::EngineBase {
 	public:
+		ServerEngine() {}
 		
 		void init() override {
-
+			initialized_ = true;
 		}
 
 		void run() override {
+			// 0. 初始化
+			if (!initialized_) throw std::logic_error("需要先使用 .init()");
+
 			// 1. 啟動 Server
 			if (!server_->start()) {
 				logger_.error("Server failed to start.");
@@ -44,14 +47,12 @@ namespace gamelib::core {
 		}
 		
 	private:
-		ServerEngine() {}
-
-		utils::Logger& logger_ = utils::Logger::instance();
+		
 
 		std::unique_ptr<network::interface::IServer> server_;
 		std::unique_ptr<session::SessionManager> sessionManager_;
 		std::unique_ptr<party::PartyManager> partyManager_;
-		event::EventBus eventBus_;
+		event::EventBus coreEventBus_;
 
 	};
 }

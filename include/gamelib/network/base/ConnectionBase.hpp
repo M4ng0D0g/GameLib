@@ -7,10 +7,10 @@
 
 namespace gamelib::network::base {
 
-	class BaseConnection {
+	class ConnectionBase {
 	public:
-		BaseConnection(const utils::uuid& id) : serverId_(id) {}
-		virtual ~BaseConnection() = default;
+		ConnectionBase(const utils::uuid& id) : serverId_(id) {}
+		virtual ~ConnectionBase() = default;
 
 	protected:
 		boost::asio::io_context ioContext_;

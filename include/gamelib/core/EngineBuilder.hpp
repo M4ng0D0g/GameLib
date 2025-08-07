@@ -1,55 +1,81 @@
 #pragma once
 
-#include "interface/IEngine.hpp"
 #include "ClientEngine.hpp"
+#include "HostEngine.hpp"
 #include "ServerEngine.hpp"
-#include "LocalEngine.hpp"
+#include "StandaloneEngine.hpp"
+#include "gamelib/game/interface/IGameManager.hpp"
 #include "gamelib/network/interface/IServer.hpp"
 #include "gamelib/network/interface/IClient.hpp"
+#include "gamelib/party/PartyManager.hpp"
+#include "gamelib/utils/Logger.hpp"
 #include <memory>
 
+using namespace gamelib::utils;
+
 namespace gamelib::core {
+	
+	enum class BuildMode {
+		Standalone, DedicatedServer, RemoteClient, Host
+	};
 
 	class EngineBuilder {
 	public:
-		EngineBuilder& withNetwork(std::shared_ptr<network::interface::IServer> server) {
-			server_ = std::move(server);
-			client_ = nullptr;
+		EngineBuilder& withGame(std::unique_ptr<game::interface::IGameManager>&& gameMngr) {
+			gameMngr_ = std::move(gameMngr);
 			return *this;
 		}
 
-		EngineBuilder& withNetwork(std::shared_ptr<network::interface::IClient> client) {
-			client_ = std::move(client);
-			server_ = nullptr;
-			return *this;
-		}
-
-		// EngineBuilder& withParty() {
-		// }
-
-		// EngineBuilder& withGame(std::shared_ptr<game::Game> game) {
-		// 	game_ = std::move(game);
+		// 完美建構傳輸
+		// template <typename GameT, typename... Args>
+		// EngineBuilder& withGame(Args&&... args) {
+		// 	gameMngr_ = std::make_unique<game::GameManager<GameT>>(std::forward<Args>(args)...);
 		// 	return *this;
 		// }
 
+		EngineBuilder& withServer(std::unique_ptr<network::interface::IServer>&& server) {
+			server_ = std::move(server);
+			return *this;
+		}
+
+		EngineBuilder& withClient(std::unique_ptr<network::interface::IClient>&& client) {
+			client_ = std::move(client);
+			return *this;
+		}
+
+		EngineBuilder& withParty(std::unique_ptr<party::PartyManager>&& partyMngr) {
+			partyMngr_ = std::move(partyMngr);
+			return *this;
+		}
+
 		// --------------------------------------------------------------------------------
 
-		std::shared_ptr<interface::IEngine> build() {
-			std::shared_ptr<interface::IEngine> engine = nullptr;
+		std::unique_ptr<interface::IEngine> build(BuildMode mode) {
+			switch (mode) {
+				case BuildMode::Standalone:
+					if (!gameMngr_) throw std::logic_error("缺乏 .withGame()");
+					// TODO: Graphics
+					return std::make_unique<StandaloneEngine>();
+					
+				case BuildMode::DedicatedServer:
+					if (!server_) throw std::logic_error("缺乏 .withServer()");
+					if (!gameMngr_) throw std::logic_error("缺乏 .withGame()");
+					// .withParty() 可選
+					return std::make_unique<ServerEngine>();
 
-			if (server_ != nullptr) {
-				engine = std::shared_ptr<interface::IEngine>(new ServerEngine());
+				case BuildMode::RemoteClient:
+					if (!client_) throw std::logic_error("缺乏 .withClient()");
+					// TODO: Graphics
+					return std::make_unique<ClientEngine>();
+
+				case BuildMode::Host:
+					if (!server_) throw std::logic_error("缺乏 .withServer()");
+					if (!gameMngr_) throw std::logic_error("缺乏 .withGame()");
+					// .withParty() 可選
+					return std::make_unique<HostEngine>();
+
+				default: return nullptr;
 			}
-			else if (client_ != nullptr) {
-				engine = std::shared_ptr<interface::IEngine>(new ClientEngine());
-
-			}
-			else {
-				engine = std::shared_ptr<interface::IEngine>(new LocalEngine());
-
-			}
-
-			return engine;
 		}
 		
 	private:
@@ -62,7 +88,18 @@ namespace gamelib::core {
 			return inst;
 		}
 
-		std::shared_ptr<network::interface::IServer> server_{nullptr};
-		std::shared_ptr<network::interface::IClient> client_{nullptr};
+		Logger& logger = Logger::instance();
+
+		// Game
+		std::unique_ptr<game::interface::IGameManager> gameMngr_{nullptr};
+
+		// Graphics
+
+		// Network
+		std::unique_ptr<network::interface::IServer> server_{nullptr};
+		std::unique_ptr<network::interface::IClient> client_{nullptr};
+
+		// Party
+		std::unique_ptr<party::PartyManager> partyMngr_{nullptr};
 	};
 }

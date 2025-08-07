@@ -5,9 +5,8 @@
 
 namespace gamelib::core {
 
-	class LocalEngine : public interface::IEngine {
+	class HostEngine : public interface::IEngine {
 		friend class EngineBuilder;
-
 	public:
 		
 		void init() override {
@@ -23,7 +22,7 @@ namespace gamelib::core {
 		}
 		
 	private:
-		LocalEngine() {}
+		HostEngine() {}
 
 		// party or game
 		// graphics

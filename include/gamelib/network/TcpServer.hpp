@@ -1,6 +1,6 @@
 #pragma once
 
-#include "base/BaseConnection.hpp"
+#include "base/ConnectionBase.hpp"
 #include "interface/IServer.hpp"
 #include <gamelib/Utils.hpp>
 #include <vector>
@@ -8,12 +8,11 @@
 
 namespace gamelib::network {
 
-	class TcpServer
-		: public interface::IServer, public base::BaseConnection {
+	class TcpServer : public interface::IServer, public base::ConnectionBase {
 	public:
 		TcpServer(unsigned short port)
 			: acceptor_(ioContext_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
-			BaseConnection(utils::generateUuid()) {}
+			ConnectionBase(utils::generateUuid()) {}
 
 		~TcpServer() {
 			stop();

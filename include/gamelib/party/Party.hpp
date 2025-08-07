@@ -15,14 +15,26 @@ namespace gamelib::party {
 
 	class Party {
 	public:
-		void join();
-		void leave();
-		void clearDisconnectedMember();
+		void join() {
 
-		void ready();
-		void unready();
+		}
+		void leave() {
 
-		void launchGame();
+		}
+		void clearDisconnectedMember() {
+
+		}
+
+		void ready() {
+
+		}
+		void unready() {
+
+		}
+
+		void launchGame() {
+			
+		}
 
 	protected:
 		Token partyId_;
