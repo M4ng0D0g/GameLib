@@ -1,6 +1,6 @@
-#include "gamelib/core/model/GameObjectModel.hpp"
+#include "gamelib/game/model/GameObjectModel.hpp"
 
-namespace GameLib::Core {
+namespace GameLib::game {
 
 	size_t GameObjectModel::lastId_ = 0;
 

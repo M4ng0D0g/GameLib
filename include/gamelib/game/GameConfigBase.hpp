@@ -5,8 +5,10 @@
 
 namespace gamelib::game {
 
-	struct GameConfig {
-		~GameConfig() = default;
+	struct GameConfigBase {
+		~GameConfigBase() = default;
+
+		double GAME_TPS = 20; // tick(s) per second, 畫面與此同步更新
 	};
 
 }

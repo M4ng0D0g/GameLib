@@ -8,16 +8,6 @@
 #include <locale>
 #include <utility>
 
-// return the actual length in terminal of a string.
-int displayWidth(const std::string& utf8) {
-	static std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
-	auto u32 = conv.from_bytes(utf8);
-
-	int w = 0;
-	for (char32_t ch : u32) w += std::max(0, ::wcwidth(static_cast<wchar_t>(ch)));
-	return std::max(1, w);
-}
-
 ConsoleView::ConsoleView(const IGameConfig::Ptr& config, IModel::Ptr& model) : config_(config), model_(model) {
 	std::setlocale(LC_ALL, "");
 

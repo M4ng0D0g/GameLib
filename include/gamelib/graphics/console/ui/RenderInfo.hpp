@@ -17,3 +17,19 @@ public:
 };
 
 */
+
+/*
+	struct PieceModel {
+		int type;
+		int hp;
+		int x, y;
+	};
+
+	struct RenderInfo {
+		char ascii;
+		std::vector<Color> colors;
+	};
+
+	std::unordered_map<int, RenderInfo> pieceRenderMap;
+
+	*/

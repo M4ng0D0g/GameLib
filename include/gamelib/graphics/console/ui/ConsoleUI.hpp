@@ -14,24 +14,7 @@ public:
 		return Ptr(new BaseUI(pixel));
 	}
 
-protected:
-	BaseUI(const Size2& pixel) : uiPixel_(pixel) {
-		icon_ = Icon::create(pixel);
-		borderEnable_ = false;
-		priority_ = 0;
-		display_ = true;
-	}
-	virtual ~BaseUI() = default;
 
-	const Size2 uiPixel_;
-	Size2 loc_;
-
-	Icon::Ptr icon_;
-	bool borderEnable_;
-	UIBorder::Pattern borderPattern_;
-	
-	size_t priority_;
-	bool display_;
 
 public:
 	const Icon::Ptr& getIcon() const { return icon_; }

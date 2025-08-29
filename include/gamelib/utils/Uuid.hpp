@@ -13,8 +13,6 @@
 
 namespace gamelib::utils {
 
-	using uuid = std::string;
-
 	// uuid generateV4() {
 	// 	// 產生 16 個隨機位元組
 	// 	std::vector<uint8_t> bytes(16);
@@ -44,7 +42,7 @@ namespace gamelib::utils {
 	// 	return oss.str();
 	// }
 
-	inline uuid generateUuid() {
+	inline std::string uuidv4() {
 		static boost::uuids::random_generator generator;
 		return to_string(generator());
 	}

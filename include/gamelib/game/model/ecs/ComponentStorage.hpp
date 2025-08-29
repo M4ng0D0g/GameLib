@@ -1,24 +1,26 @@
 #pragma once
 
 #include "Entity.hpp"
-#include "Component.hpp"
+#include "ComponentBase.hpp"
 #include <memory>
 #include <unordered_map>
 
-namespace gamelib::game {
+// TODO: 要求 C 繼承自 ComponentBase
+
+namespace gamelib::game::model::ecs {
 
 	class ComponentStorage {
 	public:
 		
 		template <typename C>
-		void add(Entity entity, std::shared_ptr<C> comp) {
+		void add(Entity e, std::shared_ptr<C> comp) {
 			auto& map = getMap<C>();
 			map[e] = comp;
 		}
 
 		template <typename C>
-		void remove(Entity entity) {
-			getMap<C>().erase(entity);
+		void remove(Entity e) {
+			getMap<C>().erase(e);
 		}
 
 		template <typename C>

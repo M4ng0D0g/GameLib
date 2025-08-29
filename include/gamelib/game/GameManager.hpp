@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Game.hpp"
-#include "interface/IGameManager.hpp"
+#include "GameBase.hpp"
+#include "IGameManager.hpp"
 #include <type_traits>
 #include <vector>
 #include <memory>
@@ -21,7 +21,7 @@ namespace gamelib::game {
 		}
 
 		bool handleEvent() override {
-
+			return false;
 		}
 
 		

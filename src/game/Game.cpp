@@ -1,34 +1,40 @@
-#include "gamelib/core/game/Game.hpp"
-#include "gamelib/Env.hpp"
+#include "gamelib/game/GameBase.hpp"
+#include "gamelib/game/GameConfigBase.hpp"
 #include "gamelib/utils/Time.hpp"
 #include <ctime>
 #include <iostream>
 
-namespace GameLib::Core::Game {
+namespace gamelib::game {
 
-	Game::Game()
-	: SPT_(1.0 / GameLib::Env::GAME_TPS), initialized_(false), running_(false), totalTicks_(0) {}
+	GameBase::GameBase() : initialized_(false), running_(false), totalTicks_(0) {}
 
 	// State Machine for Step-Based
-	void Game::setState(GameState::U_Ptr newState) {
+	void GameBase::setState(std::unique_ptr<StateBase> newState) {
 		std::lock_guard<std::mutex> lock(stateMutex_);
 
-		if (currentState_) currentState_->onExit(*this);
-		currentState_ = std::move(newState);
-		if (currentState_) currentState_->onEnter(*this);
+		if (coreStateCur_) coreStateCur_->onExit(*this);
+		coreStateCur_ = std::move(newState);
+		if (coreStateCur_) coreStateCur_->onEnter(*this);
 	}
 
 	// 可能要做 update(action)
-	void Game::updateState() {
+	void GameBase::updateState() {
 		std::lock_guard<std::mutex> lock(stateMutex_);
 		
-		if (currentState_) currentState_->onUpdate(*this);
+		if (coreStateCur_) coreStateCur_->onUpdate(*this);
 	}
 
-	bool Game::tryStart() {
+	void GameBase::setupBase(const GameConfigBase& config) {
+		if (config.GAME_TPS <= 0) throw(std::logic_error("SPT_ 不可 <= 0"));
+		SPT_ = 1.0 / config.GAME_TPS;
+
+		initialized_ = true;
+	}
+
+	bool GameBase::safetyStart() {
 		try {
-			if (running_) throw(std::runtime_error("遊戲正在運行!"));
-			if (!initialized_) throw(std::runtime_error("遊戲需要先初始化!"));
+			if (running_) throw(std::logic_error("遊戲正在運行!"));
+			if (!initialized_) throw(std::logic_error("遊戲需要先初始化!"));
 
 			running_ = true;
 
@@ -47,30 +53,34 @@ namespace GameLib::Core::Game {
 		}
 	}
 
-	void Game::end() {
+	void GameBase::terminate() {
 		running_ = false;
 		if (gameThread_.joinable()) gameThread_.join();
 	}
 
-	void Game::loop() {
-		auto tickDuration = std::chrono::duration<double>(SPT_);
-
+	void GameBase::loop() {
+		auto tickDuration = static_cast<unsigned long>(SPT_);
+		
 		while(running_) {
-			auto startTime = GameLib::Utils::StedayClock::now();
+			if (!coreStateCur_) {
+				throw(std::logic_error("coreStateCur_ 為 nullptr, 遊戲中止"));
+				running_ = false;
+				break;
+			}
+
+			auto startTime = gamelib::utils::steadyNowMs();
 
 			updateState();
 			++totalTicks_;
 
-			auto endTime = GameLib::Utils::StedayClock::now();
-			std::chrono::duration<double> elapsed = endTime - startTime;
+			auto endTime = gamelib::utils::steadyNowMs();
+			auto elapsed = endTime - startTime;
 
 			if (elapsed < tickDuration) {
-				auto sleepTime = std::chrono::duration_cast<std::chrono::milliseconds>(tickDuration - elapsed);
-				std::this_thread::sleep_for(sleepTime);
+				auto sleepTime = tickDuration - elapsed;
+				std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 			}
 		}
-		end();
 	}
-	
 }
 

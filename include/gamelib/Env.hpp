@@ -1,18 +1,23 @@
 #pragma once
 
-namespace gamelib::env {
+namespace gamelib {
 
+	struct Env {
+
+		// game
+		
+
+	};
 	// connect/server
-	static int SERVER_PORT;
-	static int MAX_CLIENTS;
+	// static int SERVER_PORT;
+	// static int MAX_CLIENTS;
 
-	// core/game
-	static double GAME_TPS = 20; // tick(s) per second, 畫面與此同步更新
+	
 
 	// core/view/console
 	// Window 的 size
-	static GameLib::Utils::Size2 WINDOW_SIZE;
-	static double WINDOW_FPS = 20;
+	// static GameLib::Utils::Size2 WINDOW_SIZE;
+	// static double WINDOW_FPS = 20;
 }
 
 
