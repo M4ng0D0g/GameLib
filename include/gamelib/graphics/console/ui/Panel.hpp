@@ -1,13 +1,19 @@
 #pragma once
 
-#include "UIBase.hpp"
+#include "UIElement.hpp"
 #include <memory>
 #include <unordered_map>
 
 namespace gamelib::graphics::console::ui {
 
-	class Panel : public UIBase {
+	class Panel : public UIElement {
 	public:
+		void render() override {
+			if (!display_) return;
+
+			// panelCur_->render();
+		}	
+		
 
 	private:
 		

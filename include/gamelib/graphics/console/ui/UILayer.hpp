@@ -1,14 +1,14 @@
 #pragma once
-#include "AnsiPrint.hpp"
-#include "Icon.hpp"
-#include "Unit.hpp"
+#include "gamelib/utils/AnsiPrint.hpp"
+#include "UIIcon.hpp"
+#include "gamelib/utils/Unit.hpp"
 #include <vector>
 #include <memory>
 #include <string>
 
-namespace gamelib::utils {
+namespace gamelib::graphics::console::ui {
 
-	using Layer = std::vector<std::vector<Cell>>;
+	using Layer = std::vector<std::vector<UICell>>;
 	using LayerBuffer = std::vector<Layer>;
 
 	// 初始化 0~maxPriority(含) 的 layer(w*h)

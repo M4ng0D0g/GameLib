@@ -1,6 +1,6 @@
 #pragma once
-
-#include "UIBase.hpp"
+#include "UIElement.hpp"
+#include "gamelib/utils/Unit.hpp"
 #include <memory>
 #include <vector>
 
@@ -9,11 +9,13 @@ namespace gamelib::graphics::console::ui {
 	class Screen {
 	public:
 
-		void render() {
-			panelCur_->render();
+		void render(const utils::Pos2<size_t>& size) {
+			
+
+			// panelCur_->render();
 		}	
 
 	private:
-		std::unique_ptr<UIBase> uiList_;
+		std::unique_ptr<UIElement> uiList_;
 	};
 }

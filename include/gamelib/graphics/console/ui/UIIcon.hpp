@@ -1,13 +1,13 @@
 #pragma once
-#include "AnsiPrint.hpp"
-#include "Unit.hpp"
+#include "gamelib/utils/AnsiPrint.hpp"
+#include "gamelib/utils/Unit.hpp"
 #include <vector>
 #include <memory>
 #include <string>
 
-namespace gamelib::utils {
+namespace gamelib::graphics::console::ui {
 
-	struct Cell {
+	struct UICell {
 		std::string text;
 		utils::AnsiColor fg;
 		utils::AnsiColor bg;
@@ -17,25 +17,27 @@ namespace gamelib::utils {
 		}
 	};
 	
-	class Icon {
+	class UIIcon {
 	public:
-		Icon(const Pos2<size_t>& size) : size_(size) {
-			data_ = std::vector<std::vector<Cell>>(size.row, std::vector<Cell>(size.col));
+		using UICellPtr = std::shared_ptr<UICell>;
+
+		UIIcon(const utils::Pos2<size_t>& size) : size_(size) {
+			data_ = std::vector<std::vector<UICellPtr>>(size.row(), std::vector<UICellPtr>(size.col()));
 		}
 
-		Pos2<size_t> getSize() const {
+		utils::Pos2<size_t> getSize() const {
 			return size_;
 		}
-		Cell get(int x, int y) const {
+		UICellPtr get(int x, int y) const {
 			return data_[y][x];
 		}
-		void set(int x, int y, const Cell& cell) {
+		void set(int x, int y, const UICellPtr& cell) {
 			data_[y][x] = cell;
 		}
 	
 	private:
-		std::vector<std::vector<Cell>> data_;
-		const Pos2<size_t> size_;
+		std::vector<std::vector<UICellPtr>> data_;
+		const utils::Pos2<size_t> size_;
 	};
 
 	// class Icon {

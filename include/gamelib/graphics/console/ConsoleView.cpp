@@ -8,29 +8,6 @@
 #include <locale>
 #include <utility>
 
-ConsoleView::ConsoleView(const IGameConfig::Ptr& config, IModel::Ptr& model) : config_(config), model_(model) {
-	std::setlocale(LC_ALL, "");
-
-	auto make_str_buf = [config] {
-		return std::vector<std::vector<std::string>>(
-			config.GAME_WINDOW.height, std::vector<std::string>(config.GAME_WINDOW.width, ""));
-	};
-	auto make_col_buf = [config] {
-		return std::vector<std::vector<AnsiColor::Ptr>>(
-			config.GAME_WINDOW.height, std::vector<AnsiColor::Ptr>(
-				config.GAME_WINDOW.width,
-				AnsiColor::Basic(9)
-			)
-		);
-	};
-
-    latest_map   = last_map   = make_str_buf();
-    latest_fg_color = last_fg_color = make_col_buf();
-    latest_bg_color = last_bg_color = make_col_buf();
-    resetLatest();
-
-}
-
 void ConsoleView::update() {
     const auto& board = model_.getBoard();
 

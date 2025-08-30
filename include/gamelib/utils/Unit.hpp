@@ -13,14 +13,20 @@ namespace gamelib::utils {
 		T x;
 		T y;
 
-		T& row = y;
-		T& col = x;
+		T& row() { return y; }
+		T& col() { return x; }
+		const T& row() const { return y; }
+		const T& col() const { return x; }
 
-		T& hor = x;
-		T& ver = y;
-		
-		T& width = x;
-		T& height = y;
+		T& hor() { return x; }
+		T& ver() { return y; }
+		const T& hor() const { return x; }
+		const T& ver() const { return y; }
+
+		T& width() { return x; }
+		T& height() { return y; }
+		const T& width() const { return x; }
+		const T& height() const { return y; }
 	};
 	
 }

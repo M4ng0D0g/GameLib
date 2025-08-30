@@ -6,6 +6,9 @@
 #include <sstream>
 #include <cstdlib>
 #include <random>
+#include <clocale>
+#include <codecvt>
+#include <locale>
 
 #ifdef _WIN32
 	#include <windows.h>
@@ -63,41 +66,35 @@ namespace gamelib::utils {
 		#endif
 	};
 
+	// 估計一段 UTF-8 字串在等寬終端機中要佔幾個字元寬度
+	int displayWidth(const std::string& utf8) {
+		thread_local static std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
+		std::u32string u32;
+		try {
+			u32 = conv.from_bytes(utf8);
+		} catch (...) {
+			return 0; // 或者改用替代字元策略
+		}
 
-}
+		int w = 0;
 
-/********************************************************************************/
-
-#include <clocale>
-#include <codecvt>
-#include <locale>
-#include <string>
-
-// 估計一段 UTF-8 字串在等寬終端機中要佔幾個字元寬度
-int displayWidth(const std::string& utf8) {
-	// 建議在 main() 先 setlocale(LC_CTYPE, "");
-	thread_local static std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
-	std::u32string u32;
-	try {
-		u32 = conv.from_bytes(utf8);
-	} catch (...) {
-		return 0; // 或者改用替代字元策略
+		#if WCHAR_MAX >= 0x10FFFF
+			for (char32_t ch : u32) {
+				int cw = ::wcwidth(static_cast<wchar_t>(ch));
+				if (cw > 0) w += cw;
+			}
+		#else
+			// Windows / wchar_t 16-bit：改呼叫你整合的 mk_wcwidth(ch) 或其他寬度表
+			for (char32_t ch : u32) {
+				int cw = mk_wcwidth(ch); // 需自備實作
+				if (cw > 0) w += cw;
+			}
+		#endif
+			return w; // 不強制 >= 1 較直觀
 	}
 
-	int w = 0;
 
-	#if WCHAR_MAX >= 0x10FFFF
-		for (char32_t ch : u32) {
-			int cw = ::wcwidth(static_cast<wchar_t>(ch));
-			if (cw > 0) w += cw;
-		}
-	#else
-		// Windows / wchar_t 16-bit：改呼叫你整合的 mk_wcwidth(ch) 或其他寬度表
-		for (char32_t ch : u32) {
-			int cw = mk_wcwidth(ch); // 需自備實作
-			if (cw > 0) w += cw;
-		}
-	#endif
-		return w; // 不強制 >= 1 較直觀
+
+
 }
 
